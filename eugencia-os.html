@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eugência OS</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f5f0;
+  --bg2: #ffffff;
+  --bg3: #f0ede6;
+  --bg4: #e8e4db;
+  --border: rgba(0,0,0,0.07);
+  --border2: rgba(0,0,0,0.13);
+  --text: #1a1916;
+  --text2: #6b6860;
+  --text3: #a8a49c;
+  --accent: #1a1916;
+  --accent-inv: #f7f5f0;
+  --green: #2d6a4f;
+  --green-bg: #eaf4ee;
+  --amber: #92400e;
+  --amber-bg: #fef3c7;
+  --blue: #1e40af;
+  --blue-bg: #eff6ff;
+  --red: #991b1b;
+  --red-bg: #fef2f2;
+  --purple: #5b21b6;
+  --purple-bg: #f5f3ff;
+  --radius: 12px;
+  --radius-sm: 7px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --agency-color: #1a1916;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: var(--text);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  padding: 28px 22px 22px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.logo-agency {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  color: #fff;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+  word-break: break-word;
+}
+.logo-tag {
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin-top: 3px;
+  font-family: 'DM Mono', monospace;
+}
+
+.sidebar-nav {
+  padding: 18px 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.nav-group-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.25);
+  padding: 12px 8px 4px;
+  font-family: 'DM Mono', monospace;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.5);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.8); }
+.nav-item.active { background: rgba(255,255,255,0.12); color: #fff; }
+.nav-item svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.7; }
+.nav-item.active svg { opacity: 1; }
+
+.sidebar-bottom {
+  padding: 16px 14px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.sidebar-bottom-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; border-radius: 8px;
+  color: rgba(255,255,255,0.4); font-size: 12px;
+  cursor: pointer; transition: all 0.15s;
+}
+.sidebar-bottom-btn:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.7); }
+
+/* MAIN */
+.main { margin-left: 240px; flex: 1; min-height: 100vh; }
+
+.topbar {
+  padding: 18px 32px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg2);
+  position: sticky; top: 0; z-index: 50;
+  box-shadow: var(--shadow);
+}
+.topbar-left { display: flex; flex-direction: column; gap: 1px; }
+.topbar-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 500; letter-spacing: -0.3px; }
+.topbar-sub { font-size: 12px; color: var(--text3); }
+.topbar-right { display: flex; gap: 8px; align-items: center; }
+
+/* BUTTONS */
+.btn {
+  padding: 8px 16px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 600;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer; border: 1px solid var(--border2);
+  transition: all 0.15s; background: var(--bg2); color: var(--text2);
+}
+.btn:hover { background: var(--bg3); color: var(--text); }
+.btn-primary { background: var(--text); color: #fff; border-color: var(--text); }
+.btn-primary:hover { background: #333; }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+.btn-ghost { border-color: transparent; background: transparent; }
+.btn-ghost:hover { background: var(--bg3); }
+.btn-danger { color: var(--red); border-color: rgba(153,27,27,0.2); }
+.btn-danger:hover { background: var(--red-bg); }
+
+/* CONTENT */
+.content { padding: 32px; }
+.page { display: none; }
+.page.active { display: block; }
+
+/* CARDS */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.card-pad { padding: 20px; }
+
+/* GRIDS */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+
+/* STAT */
+.stat { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+.stat-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 8px; }
+.stat-val { font-family: 'Fraunces', serif; font-size: 42px; font-weight: 300; letter-spacing: -1px; line-height: 1; color: var(--text); }
+.stat-sub { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+/* BADGE */
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600; padding: 3px 9px;
+  border-radius: 20px; white-space: nowrap;
+}
+.badge-green { background: var(--green-bg); color: var(--green); }
+.badge-amber { background: var(--amber-bg); color: var(--amber); }
+.badge-blue { background: var(--blue-bg); color: var(--blue); }
+.badge-red { background: var(--red-bg); color: var(--red); }
+.badge-purple { background: var(--purple-bg); color: var(--purple); }
+.badge-gray { background: var(--bg3); color: var(--text2); }
+.badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+/* TAG */
+.tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+.tag-ia { background: var(--purple-bg); color: var(--purple); }
+.tag-you { background: var(--green-bg); color: var(--green); }
+.tag-trello { background: var(--blue-bg); color: var(--blue); }
+
+/* PROGRESS */
+.progress-bar { height: 4px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
+
+/* DIVIDER */
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+/* SECTION HEADER */
+.section-h { margin-bottom: 24px; }
+.section-h h2 { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 500; letter-spacing: -0.5px; margin-bottom: 4px; }
+.section-h p { font-size: 13px; color: var(--text3); }
+
+/* EMPTY STATE */
+.empty { text-align: center; padding: 60px 20px; color: var(--text3); }
+.empty-icon { font-size: 36px; margin-bottom: 12px; opacity: 0.4; }
+.empty-title { font-size: 16px; font-weight: 600; color: var(--text2); margin-bottom: 4px; }
+.empty-sub { font-size: 13px; }
+
+/* MODAL */
+.overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4); z-index: 300;
+  align-items: center; justify-content: center; padding: 24px;
+  backdrop-filter: blur(2px);
+}
+.overlay.open { display: flex; }
+.modal {
+  background: var(--bg2); border-radius: 16px;
+  width: 100%; max-width: 580px;
+  max-height: 85vh; overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  animation: slideUp 0.2s ease;
+}
+@keyframes slideUp { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-header { padding: 24px 24px 0; }
+.modal-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; letter-spacing: -0.3px; }
+.modal-sub { font-size: 13px; color: var(--text3); margin-top: 3px; }
+.modal-body { padding: 20px 24px; }
+.modal-footer { padding: 0 24px 24px; display: flex; gap: 8px; justify-content: flex-end; }
+
+/* FORM */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-group { margin-bottom: 14px; }
+.form-group:last-child { margin-bottom: 0; }
+.form-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text2); margin-bottom: 6px; display: block; }
+.form-input, .form-select, .form-textarea {
+  width: 100%; background: var(--bg);
+  border: 1px solid var(--border2); border-radius: var(--radius-sm);
+  padding: 9px 12px; font-size: 13px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--text); outline: none; transition: border-color 0.15s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--text); }
+.form-textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+.form-select option { background: var(--bg2); }
+
+/* CLIENT CARD */
+.client-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  cursor: pointer; transition: all 0.15s; overflow: hidden;
+}
+.client-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.client-card-top { padding: 18px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 14px; }
+.client-avatar {
+  width: 44px; height: 44px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700;
+  flex-shrink: 0; color: #fff;
+}
+.client-name { font-size: 15px; font-weight: 700; }
+.client-seg { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.client-card-body { padding: 14px 20px; }
+.client-services { font-size: 12px; color: var(--text2); margin-bottom: 10px; }
+.client-progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-bottom: 5px; }
+
+/* STEPS */
+.step-item { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 8px; box-shadow: var(--shadow); }
+.step-header { display: flex; align-items: center; gap: 14px; padding: 14px 18px; cursor: pointer; user-select: none; transition: background 0.1s; }
+.step-header:hover { background: var(--bg); }
+.step-num {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--bg3); border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--text2);
+  font-family: 'DM Mono', monospace; flex-shrink: 0;
+}
+.step-num.done { background: var(--green-bg); border-color: rgba(45,106,79,0.2); color: var(--green); }
+.step-info { flex: 1; }
+.step-title { font-size: 14px; font-weight: 700; }
+.step-subtitle { font-size: 12px; color: var(--text3); margin-top: 1px; }
+.step-meta { display: flex; gap: 6px; align-items: center; }
+.step-arrow { color: var(--text3); font-size: 10px; transition: transform 0.2s; margin-left: 4px; }
+.step-arrow.open { transform: rotate(90deg); }
+.step-body { display: none; border-top: 1px solid var(--border); padding: 16px 18px; background: var(--bg); }
+.step-body.open { display: block; }
+
+/* CHECKLIST */
+.checklist { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+.check-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 9px 12px; border-radius: var(--radius-sm);
+  background: var(--bg2); border: 1px solid var(--border);
+  cursor: pointer; transition: all 0.1s;
+}
+.check-item:hover { border-color: var(--border2); }
+.check-item.checked { opacity: 0.6; }
+.check-box {
+  width: 17px; height: 17px; border-radius: 4px;
+  border: 1.5px solid var(--border2); flex-shrink: 0;
+  margin-top: 1px; display: flex; align-items: center; justify-content: center;
+  font-size: 10px; transition: all 0.15s; color: transparent;
+}
+.check-item.checked .check-box { background: var(--green); border-color: var(--green); color: #fff; }
+.check-item.checked .check-text { text-decoration: line-through; color: var(--text3); }
+.check-text { font-size: 13px; color: var(--text); flex: 1; }
+
+/* PROMPT CARD */
+.prompt-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); margin-bottom: 10px; }
+.prompt-header { display: flex; align-items: center; gap: 14px; padding: 16px 18px; cursor: pointer; user-select: none; }
+.prompt-header:hover { background: var(--bg); }
+.prompt-icon { width: 36px; height: 36px; border-radius: 9px; background: var(--bg3); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.prompt-title { font-size: 14px; font-weight: 700; flex: 1; }
+.prompt-sub { font-size: 12px; color: var(--text3); margin-top: 1px; }
+.prompt-arrow { color: var(--text3); font-size: 10px; transition: transform 0.2s; }
+.prompt-arrow.open { transform: rotate(90deg); }
+.prompt-body { display: none; border-top: 1px solid var(--border); padding: 18px; }
+.prompt-body.open { display: block; }
+.prompt-client-select { margin-bottom: 12px; }
+.prompt-text-box {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px 16px;
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  line-height: 1.7; color: var(--text2); white-space: pre-wrap;
+  max-height: 300px; overflow-y: auto; margin-bottom: 12px;
+  position: relative;
+}
+.var-filled { color: var(--green); font-weight: 500; }
+.var-empty { color: var(--amber); background: var(--amber-bg); border-radius: 3px; padding: 0 3px; }
+.prompt-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* CALENDAR */
+.cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.cal-nav { display: flex; align-items: center; gap: 12px; }
+.cal-month { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 500; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-day-label { text-align: center; font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; padding: 6px 0; }
+.cal-day {
+  min-height: 90px; background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 7px; cursor: pointer; transition: all 0.1s;
+}
+.cal-day:hover { border-color: var(--border2); box-shadow: var(--shadow); }
+.cal-day.other-month { background: var(--bg3); opacity: 0.5; }
+.cal-day.today { border-color: var(--text); border-width: 1.5px; }
+.cal-day-num { font-size: 12px; font-weight: 700; color: var(--text2); margin-bottom: 4px; }
+.cal-day.today .cal-day-num { color: var(--text); }
+.cal-post {
+  font-size: 10px; font-weight: 600; padding: 2px 5px;
+  border-radius: 3px; margin-bottom: 2px; line-height: 1.4;
+  cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.post-producao { background: var(--amber-bg); color: var(--amber); }
+.post-aprovacao { background: var(--blue-bg); color: var(--blue); }
+.post-publicado { background: var(--green-bg); color: var(--green); }
+
+/* SETTINGS */
+.settings-section { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; box-shadow: var(--shadow); }
+.settings-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.settings-sub { font-size: 13px; color: var(--text3); margin-bottom: 20px; }
+.color-swatches { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.color-swatch {
+  width: 32px; height: 32px; border-radius: 8px;
+  cursor: pointer; border: 2px solid transparent;
+  transition: all 0.15s;
+}
+.color-swatch.selected { border-color: var(--text); box-shadow: 0 0 0 2px var(--bg2), 0 0 0 4px var(--text); }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--text); color: #fff;
+  border-radius: var(--radius-sm); padding: 12px 18px;
+  font-size: 13px; font-weight: 600; z-index: 999;
+  transform: translateY(60px); opacity: 0;
+  transition: all 0.3s ease; pointer-events: none;
+  box-shadow: var(--shadow-md);
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+
+/* ANOTACOES */
+.note-box {
+  width: 100%; background: var(--bg);
+  border: 1px solid var(--border2); border-radius: var(--radius-sm);
+  padding: 12px; font-size: 13px; font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--text); outline: none; resize: vertical; min-height: 100px;
+  line-height: 1.6; transition: border-color 0.15s;
+}
+.note-box:focus { border-color: var(--text); }
+
+/* CLIENT DETAIL */
+.cd-header {
+  background: var(--text); color: #fff;
+  padding: 24px 28px; border-radius: var(--radius) var(--radius) 0 0;
+  display: flex; align-items: center; gap: 18px;
+}
+.cd-avatar {
+  width: 56px; height: 56px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif; font-size: 24px; font-weight: 700;
+  background: rgba(255,255,255,0.12); color: #fff; flex-shrink: 0;
+}
+.cd-name { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; letter-spacing: -0.3px; }
+.cd-meta { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+.cd-body { padding: 24px 28px; }
+.cd-tabs { display: flex; gap: 4px; margin-bottom: 24px; background: var(--bg3); padding: 4px; border-radius: 9px; }
+.cd-tab { flex: 1; text-align: center; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text2); transition: all 0.15s; }
+.cd-tab.active { background: var(--bg2); color: var(--text); box-shadow: var(--shadow); }
+.cd-panel { display: none; }
+.cd-panel.active { display: block; }
+
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.info-item { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; }
+.info-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); margin-bottom: 4px; }
+.info-value { font-size: 13px; font-weight: 500; color: var(--text); }
+
+/* POST ITEM */
+.post-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 6px; }
+.post-info { flex: 1; }
+.post-title-text { font-size: 13px; font-weight: 600; }
+.post-date { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.post-actions { display: flex; gap: 4px; }
+
+/* PRINT */
+@media print {
+  .sidebar, .topbar, .topbar-right, .btn, .btn-primary, .btn-sm, .btn-ghost { display: none !important; }
+  .main { margin-left: 0; }
+  .content { padding: 16px; }
+  .page { display: block !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-agency" id="sidebar-agency-name">Eugência</div>
+    <div class="logo-tag">Sistema operacional</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-group-label">Visão geral</div>
+    <div class="nav-item active" onclick="nav('dashboard')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-group-label">Gestão</div>
+    <div class="nav-item" onclick="nav('clientes')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.314 2.686-6 6-6s6 2.686 6 6"/></svg>
+      Clientes
+    </div>
+    <div class="nav-item" onclick="nav('calendario')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="2" width="14" height="13" rx="2"/><path d="M1 6h14M5 1v2M11 1v2"/></svg>
+      Calendário
+    </div>
+    <div class="nav-group-label">Processos</div>
+    <div class="nav-item" onclick="nav('onboarding')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      Onboarding
+    </div>
+    <div class="nav-item" onclick="nav('execucao')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="7"/><path d="M8 4v4l3 2"/></svg>
+      Execução
+    </div>
+    <div class="nav-item" onclick="nav('relatorio')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 1h10l2 3v11H1V4z"/><path d="M5 7h6M5 10h6M5 13h3"/></svg>
+      Relatório
+    </div>
+    <div class="nav-group-label">Ferramentas</div>
+    <div class="nav-item" onclick="nav('prompts')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h12M2 7h8M2 11h10"/><circle cx="13" cy="11" r="2.5"/><path d="M15 13l1.5 1.5"/></svg>
+      Prompts de IA
+    </div>
+    <div class="nav-item" onclick="nav('ciclo')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 8A6 6 0 1 1 8 2"/><path d="M8 2l3-1-1 3"/></svg>
+      Ciclo Trimestral
+    </div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="sidebar-bottom-btn" onclick="nav('configuracoes')">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="2.5"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.42 1.42M11.53 11.53l1.42 1.42M3.05 12.95l1.42-1.42M11.53 4.47l1.42-1.42"/></svg>
+      Configurações
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-sub" id="topbar-sub">Visão geral da sua eugência</div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-primary" onclick="openModal('modal-add-cliente')">+ Novo cliente</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <div class="grid-4" style="margin-bottom:24px">
+        <div class="stat"><div class="stat-label">Clientes ativos</div><div class="stat-val" id="s-total">0</div><div class="stat-sub">cadastrados</div></div>
+        <div class="stat"><div class="stat-label">Em onboarding</div><div class="stat-val" id="s-onb">0</div><div class="stat-sub">novos clientes</div></div>
+        <div class="stat"><div class="stat-label">Em execução</div><div class="stat-val" id="s-exe">0</div><div class="stat-sub">em andamento</div></div>
+        <div class="stat"><div class="stat-label">Posts no mês</div><div class="stat-val" id="s-posts">0</div><div class="stat-sub">programados</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card card-pad">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <div style="font-size:14px;font-weight:700">Clientes recentes</div>
+            <button class="btn btn-sm btn-ghost" onclick="nav('clientes')">Ver todos →</button>
+          </div>
+          <div id="dash-clients"></div>
+        </div>
+        <div class="card card-pad">
+          <div style="font-size:14px;font-weight:700;margin-bottom:16px">Acesso rápido</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <button class="btn" style="text-align:left;justify-content:flex-start;display:flex;gap:8px" onclick="nav('onboarding')">→ Processo de onboarding</button>
+            <button class="btn" style="text-align:left;justify-content:flex-start;display:flex;gap:8px" onclick="nav('execucao')">→ Processo de execução</button>
+            <button class="btn" style="text-align:left;justify-content:flex-start;display:flex;gap:8px" onclick="nav('relatorio')">→ Processo de relatório</button>
+            <button class="btn" style="text-align:left;justify-content:flex-start;display:flex;gap:8px" onclick="nav('prompts')">✦ Prompts de IA prontos</button>
+            <button class="btn" style="text-align:left;justify-content:flex-start;display:flex;gap:8px" onclick="nav('ciclo')">↻ Ciclo trimestral</button>
+            <button class="btn" style="text-align:left;justify-content:flex-start;display:flex;gap:8px" onclick="nav('calendario')">📅 Ver calendário</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLIENTES -->
+    <div class="page" id="page-clientes">
+      <div class="section-h"><h2>Clientes</h2><p>Acompanhe o progresso de cada cliente</p></div>
+      <div class="grid-2" id="clientes-grid"></div>
+    </div>
+
+    <!-- CLIENTE DETALHE -->
+    <div class="page" id="page-cliente-detalhe">
+      <button class="btn btn-sm btn-ghost" onclick="nav('clientes')" style="margin-bottom:16px">← Voltar para clientes</button>
+      <div class="card" id="cliente-detalhe-content"></div>
+    </div>
+
+    <!-- CALENDÁRIO -->
+    <div class="page" id="page-calendario">
+      <div class="section-h"><h2>Calendário de Conteúdo</h2><p>Visualize e gerencie os posts de todos os clientes</p></div>
+      <div class="card card-pad">
+        <div class="cal-header">
+          <div class="cal-nav">
+            <button class="btn btn-sm" onclick="calPrev()">‹</button>
+            <div class="cal-month" id="cal-month-label">—</div>
+            <button class="btn btn-sm" onclick="calNext()">›</button>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div style="display:flex;gap:10px;font-size:12px">
+              <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:var(--amber-bg);border:1px solid var(--amber);display:inline-block"></span>Em produção</span>
+              <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:var(--blue-bg);border:1px solid var(--blue);display:inline-block"></span>Aguardando</span>
+              <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:var(--green-bg);border:1px solid var(--green);display:inline-block"></span>Publicado</span>
+            </div>
+            <button class="btn btn-sm btn-primary" onclick="openModal('modal-add-post')">+ Post</button>
+          </div>
+        </div>
+        <div class="cal-grid" id="cal-labels"></div>
+        <div class="cal-grid" style="margin-top:4px" id="cal-days"></div>
+      </div>
+    </div>
+
+    <!-- ONBOARDING -->
+    <div class="page" id="page-onboarding">
+      <div class="section-h"><h2>Onboarding</h2><p>Do fechamento ao primeiro entregável — 5 a 7 dias</p></div>
+      <div id="steps-onboarding"></div>
+    </div>
+
+    <!-- EXECUÇÃO -->
+    <div class="page" id="page-execucao">
+      <div class="section-h"><h2>Execução Contínua</h2><p>O ciclo mensal de produção e publicação</p></div>
+      <div id="steps-execucao"></div>
+    </div>
+
+    <!-- RELATÓRIO -->
+    <div class="page" id="page-relatorio">
+      <div class="section-h"><h2>Relatório Trimestral</h2><p>Da coleta de dados à apresentação para o cliente</p></div>
+      <div id="steps-relatorio"></div>
+    </div>
+
+    <!-- PROMPTS -->
+    <div class="page" id="page-prompts">
+      <div class="section-h"><h2>Prompts de IA</h2><p>Selecione o cliente para preencher automaticamente</p></div>
+      <div id="prompts-container"></div>
+    </div>
+
+    <!-- CICLO -->
+    <div class="page" id="page-ciclo">
+      <div class="section-h"><h2>Ciclo Trimestral</h2><p>O ritmo que garante que você nunca fique um dia sem postar</p></div>
+      <div class="grid-3" style="margin-bottom:16px">
+        <div class="card card-pad">
+          <div style="font-size:12px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Mês 1 — Execução</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;gap:10px;font-size:12px"><span style="font-family:'DM Mono',monospace;color:var(--text3);min-width:40px">Sem 1</span><span style="color:var(--text);font-weight:600">Início — conteúdo pronto para publicar</span></div>
+            <div style="display:flex;gap:10px;font-size:12px"><span style="font-family:'DM Mono',monospace;color:var(--text3);min-width:40px">Sem 2</span><span style="color:var(--text2)">Produção e publicação contínua</span></div>
+            <div style="display:flex;gap:10px;font-size:12px"><span style="font-family:'DM Mono',monospace;color:var(--text3);min-width:40px">Sem 3</span><span style="color:var(--text2)">Monitorar campanhas de tráfego</span></div>
+            <div style="display:flex;gap:10px;font-size:12px"><span style="font-family:'DM Mono',monospace;color:var(--text3);min-width:40px">Sem 4</span><span style="color:var(--text2)">Analisar o que funcionou</span></div>
+          </div>
+        </div>
+        <div class="card card-pad">
+          <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Mês 2 — Crescimento</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;gap:10px;font-size:12px"><span style="font-family:'DM Mono',monospace;color:var(--text3);min-width:40px">Sem 5</span><span style="color:var(--text2)">Aprofundar o que funcionou</span></div>
+            <div style="display:flex;gap:10px;font-size:12px"><span style="font-family:'DM Mono',monospace;color:var(--text3);min-width:40px">Sem 6</span><span style="color:var(--text2)">Ajustar calendário se necessário</span></div>
+            <div style="display:flex;gap:10px;font-size:12px"><span style="font-family:'DM Mono',monospace;color:var(--text3);min-width:40px">Sem 7</span><span style="color:var(--text2)">Conteúdo de autoridade</span></div>
+            <div style="display:flex;gap:10px;font-size:12px"><span style="font-family:'DM Mono',monospace;color:var(--text3);min-width:40px">Sem 8</span><span style="color:var(--text2)">Campanha de engajamento</span></div>
+          </div>
+        </div>
+        <div class="card card-pad">
+          <div style="font-size:12px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Mês 3 — Virada</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;gap:10px;font-size:12px"><span style="font-family:'DM Mono',monospace;color:var(--text3);min-width:40px">Sem 9</span><span style="color:var(--amber);font-weight:600">Iniciar coleta de dados</span></div>
+            <div style="display:flex;gap:10px;font-size:12px"><span style="font-family:'DM Mono',monospace;color:var(--text3);min-width:40px">Sem 10</span><span style="color:var(--amber);font-weight:600">Gerar planejamento do próximo tri</span></div>
+            <div style="display:flex;gap:10px;font-size:12px"><span style="font-family:'DM Mono',monospace;color:var(--text3);min-width:40px">Sem 11</span><span style="color:var(--amber);font-weight:600">Produzir semanas 1–2 do próximo tri</span></div>
+            <div style="display:flex;gap:10px;font-size:12px"><span style="font-family:'DM Mono',monospace;color:var(--text3);min-width:40px">Sem 12</span><span style="color:var(--text);font-weight:700">Reunião trimestral</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card card-pad" style="background:var(--text);color:#fff">
+        <div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.7)">
+          <strong style="color:#fff">Regra de ouro:</strong> o trimestre novo começa antes do atual terminar. Na semana 11 você produz as primeiras semanas do próximo trimestre. A virada é invisível para o seguidor — o perfil nunca para.
+        </div>
+      </div>
+    </div>
+
+    <!-- CONFIGURAÇÕES -->
+    <div class="page" id="page-configuracoes">
+      <div class="section-h"><h2>Configurações</h2><p>Personalize sua eugência</p></div>
+      <div class="settings-section">
+        <div class="settings-title">Identidade da agência</div>
+        <div class="settings-sub">Personalize com o nome e cor da sua marca</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nome da agência</label>
+            <input class="form-input" id="cfg-nome" placeholder="Ex: Studio Maria" oninput="previewAgency()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Seu nome</label>
+            <input class="form-input" id="cfg-voce" placeholder="Ex: Maria Silva">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cor de destaque</label>
+          <div class="color-swatches" id="color-swatches"></div>
+        </div>
+        <button class="btn btn-primary" onclick="saveConfig()">Salvar configurações</button>
+      </div>
+      <div class="settings-section">
+        <div class="settings-title">Exportar dados</div>
+        <div class="settings-sub">Faça backup dos seus dados ou exporte em PDF</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" onclick="exportJSON()">⬇ Exportar backup (JSON)</button>
+          <button class="btn" onclick="window.print()">🖨 Imprimir / Salvar PDF</button>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-title" style="color:var(--red)">Zona de perigo</div>
+        <div class="settings-sub">Ações irreversíveis</div>
+        <button class="btn btn-danger" onclick="clearAll()">Apagar todos os dados</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- MODAL NOVO CLIENTE -->
+<div class="overlay" id="modal-add-cliente">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Novo cliente</div>
+      <div class="modal-sub">Preencha as informações básicas para começar o onboarding</div>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Nome / Empresa *</label><input class="form-input" id="fn-nome" placeholder="Ex: Restaurante da Maria"></div>
+        <div class="form-group"><label class="form-label">Segmento *</label><input class="form-input" id="fn-seg" placeholder="Ex: Restaurante, Clínica..."></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Serviços contratados</label><input class="form-input" id="fn-srv" placeholder="Ex: Redes sociais + Tráfego"></div>
+        <div class="form-group"><label class="form-label">Meta principal</label><input class="form-input" id="fn-meta" placeholder="Ex: Mais vendas, mais leads..."></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Tom de voz</label><input class="form-input" id="fn-tom" placeholder="Ex: Descontraído e próximo"></div>
+        <div class="form-group"><label class="form-label">Fase inicial</label>
+          <select class="form-select" id="fn-fase">
+            <option value="onboarding">Onboarding</option>
+            <option value="diagnostico">Diagnóstico</option>
+            <option value="planejamento">Planejamento</option>
+            <option value="execucao">Execução</option>
+            <option value="relatorio">Relatório</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Anotações iniciais</label><textarea class="form-textarea" id="fn-nota" placeholder="Observações sobre o cliente, contexto, detalhes importantes..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-add-cliente')">Cancelar</button>
+      <button class="btn btn-primary" onclick="addCliente()">Adicionar cliente</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ADD POST -->
+<div class="overlay" id="modal-add-post">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Novo post</div>
+      <div class="modal-sub">Adicione um conteúdo ao calendário</div>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Cliente *</label><select class="form-select" id="fp-cliente"></select></div>
+        <div class="form-group"><label class="form-label">Data de publicação *</label><input class="form-input" type="date" id="fp-data"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Formato</label>
+          <select class="form-select" id="fp-formato">
+            <option>Feed — Foto</option><option>Feed — Carrossel</option>
+            <option>Reel</option><option>Story</option><option>Anúncio</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Status</label>
+          <select class="form-select" id="fp-status">
+            <option value="producao">Em produção</option>
+            <option value="aprovacao">Aguardando aprovação</option>
+            <option value="publicado">Publicado</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Tema / Descrição *</label><input class="form-input" id="fp-tema" placeholder="Ex: Promoção do dia, bastidores da cozinha..."></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-add-post')">Cancelar</button>
+      <button class="btn btn-primary" onclick="addPost()">Salvar post</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ DATA ============
+const KEY = 'eugencia_os_v2';
+function load() { try { return JSON.parse(localStorage.getItem(KEY)) || dflt(); } catch(e) { return dflt(); } }
+function dflt() { return { config: { nome: 'Eugência', voce: '', cor: '#1a1916' }, clientes: [], posts: [], checks: {} }; }
+function save(d) { localStorage.setItem(KEY, JSON.stringify(d)); }
+let DB = load();
+
+// ============ PROCESSOS ============
+const PROCESSOS = {
+  onboarding: [
+    { title: 'Boas-vindas e próximos passos', sub: 'Mensagem no WhatsApp confirmando o início', tags: ['you'], checks: ['Enviar mensagem de boas-vindas no WhatsApp', 'Confirmar data de início dos trabalhos', 'Informar o que acontece nos próximos dias'] },
+    { title: 'Briefing do negócio', sub: 'Formulário personalizado para o segmento', tags: ['ia','you'], checks: ['Gerar briefing personalizado com IA (usar prompt)', 'Enviar briefing para o cliente', 'Receber e revisar respostas preenchidas'], prompt: 'briefing' },
+    { title: 'Coleta de acessos', sub: 'Instagram, Meta Ads, materiais visuais', tags: ['you'], checks: ['Acesso ao Instagram (colaborador ou login)', 'Meta Business Suite', 'Meta Ads Manager', 'Pasta com materiais e identidade visual', 'Outros acessos relevantes (site, WhatsApp Business)'] },
+    { title: 'Diagnóstico com IA', sub: 'Analisar perfil, concorrentes e oportunidades', tags: ['ia'], checks: ['Coletar dados do perfil no Instagram Insights', 'Pesquisar concorrentes no ChatGPT com navegação', 'Gerar diagnóstico completo no Claude (usar prompt)', 'Revisar e adaptar com contexto do cliente'], prompt: 'diagnostico' },
+    { title: 'Reunião de kickoff', sub: 'Apresentar diagnóstico e alinhar metas', tags: ['you'], checks: ['Apresentar diagnóstico ao cliente', 'Alinhar metas e KPIs do trimestre', 'Definir tom de voz com exemplos práticos', 'Definir regras operacionais (aprovações, prazos, comunicação)'] },
+    { title: 'Planejamento do primeiro trimestre', sub: 'Calendário de conteúdo e campanhas', tags: ['ia','you'], checks: ['Gerar calendário trimestral com IA (usar prompt)', 'Ajustar datas e campanhas conforme cliente', 'Enviar para aprovação do cliente', 'Criar board do cliente no Trello'], prompt: 'planejamento' },
+    { title: 'Primeiro entregável', sub: 'Conteúdo da semana 1 pronto para publicar', tags: ['you'], checks: ['Produzir primeiros posts de feed', 'Produzir primeiros reels', 'Enviar para aprovação', 'Agendar publicações no Meta Business Suite', 'Ativar primeira campanha de tráfego (se aplicável)'] },
+  ],
+  execucao: [
+    { title: 'Produção de conteúdo', sub: 'Sempre 1 semana de antecedência', tags: ['ia','you'], checks: ['Verificar calendário da semana seguinte', 'Produzir posts de feed conforme calendário', 'Produzir reels conforme calendário', 'Escrever legendas com IA (usar prompt)', 'Enviar para aprovação do cliente'], prompt: 'conteudo' },
+    { title: 'Aprovação e agendamento', sub: 'Publicação e programação dos posts', tags: ['you'], checks: ['Receber aprovação do cliente', 'Agendar posts no Meta Business Suite', 'Atualizar status no Trello para publicado', 'Responder comentários e mensagens da semana'] },
+    { title: 'Gestão de tráfego pago', sub: 'Monitoramento e otimização das campanhas', tags: ['you'], checks: ['Verificar performance a cada 3 dias', 'Ajustar orçamento conforme resultados', 'Pausar criativos com baixo desempenho', 'Testar novos públicos ou criativos se necessário'] },
+    { title: 'Monitoramento de resultados', sub: 'Acompanhar métricas ao longo do mês', tags: ['you'], checks: ['Verificar alcance e impressões semanalmente', 'Monitorar crescimento de seguidores', 'Identificar top conteúdos do mês', 'Anotar aprendizados para o próximo planejamento'] },
+  ],
+  relatorio: [
+    { title: 'Coleta de dados', sub: 'Semana 9 do trimestre — não deixe para o final', tags: ['you'], checks: ['Alcance total (Instagram Insights)', 'Impressões totais', 'Seguidores início vs final do trimestre', 'Resultados por campanha de tráfego (Meta Ads)', 'Top 3 posts com melhor desempenho'] },
+    { title: 'Análise com IA', sub: 'Claude interpreta os números e gera insights', tags: ['ia'], checks: ['Colar todos os dados no prompt de análise', 'Revisar insights gerados pelo Claude', 'Adicionar contextos que só você conhece', 'Validar recomendações para o próximo trimestre'], prompt: 'relatorio' },
+    { title: 'Montagem do relatório', sub: 'Documento simples e visual para o cliente', tags: ['you'], checks: ['Resumo executivo em 3 linhas', 'Números do Instagram com contexto', 'Resultados de tráfego pago por campanha', 'Top conteúdos do trimestre com análise', 'Aprendizados e recomendações para o próximo tri'] },
+    { title: 'Apresentação para o cliente', sub: 'Reunião trimestral — relatório + próximo plano', tags: ['you'], checks: ['Enviar relatório no WhatsApp com mensagem de contexto', 'Apresentar resultados na reunião', 'Apresentar planejamento do próximo trimestre', 'Agendar produção de conteúdo (fotos e vídeos)', 'Confirmar orçamento de tráfego para o próximo trimestre'] },
+  ]
+};
+
+const PROMPTS = [
+  { id: 'briefing', icon: '📋', title: 'Briefing personalizado', sub: 'Gera perguntas sob medida para o segmento do cliente',
+    tmpl: (c) => `Vou fechar com um novo cliente e preciso da sua ajuda para montar um briefing personalizado para ele.\n\nSegmento: ${c?c.segmento:'[segmento do cliente]'}\nO que eu já sei sobre ele: ${c?c.nome+', '+c.servicos:'[conte o que você sabe]'}\nServiços que vou prestar: ${c?c.servicos:'[gestão de redes sociais / tráfego pago / criação de conteúdo]'}\n\nCom base nisso, me gera um briefing completo e personalizado para esse segmento com todas as perguntas que eu preciso fazer para esse cliente antes de começar a trabalhar.\n\nO briefing deve estar formatado em perguntas diretas, organizadas por blocos temáticos, pronto para eu enviar no WhatsApp ou usar como roteiro de conversa.` },
+  { id: 'diagnostico', icon: '🔍', title: 'Diagnóstico com IA', sub: 'Analisa e gera diagnóstico completo de presença digital',
+    tmpl: (c) => `Você é um especialista em marketing digital com foco em Instagram e tráfego pago. Vou te passar as informações de um novo cliente e quero que você gere um diagnóstico completo de presença digital.\n\n— SOBRE O NEGÓCIO —\nNome: ${c?c.nome:'[nome do cliente]'}\nSegmento: ${c?c.segmento:'[segmento]'}\nCidade/região: [onde atua]\nPúblico-alvo: [quem são os clientes]\nDiferencial: [o que torna esse negócio único]\nMeta principal: ${c?c.meta:'[ex: mais seguidores, mais vendas]'}\n\n— DADOS ATUAIS DO INSTAGRAM —\nSeguidores: [número]\nFrequência de posts: [ex: 3x por semana]\nEngajamento médio: [likes + comentários por post]\nTipos de conteúdo: [fotos, reels, stories...]\nBio atual: [copie a bio]\nLink na bio: [para onde direciona]\nUsa tráfego pago? [sim/não]\n\n— CONCORRENTES —\n[Cole aqui o que o ChatGPT levantou sobre concorrentes e mercado]\n\n— O QUE EU QUERO —\n1. Pontos fortes do perfil atual\n2. Pontos fracos e oportunidades perdidas\n3. Análise dos concorrentes vs. esse cliente\n4. Posicionamento recomendado\n5. Tom de voz sugerido com 3 exemplos de legenda\n6. 5 recomendações estratégicas prioritárias\n7. Objetivo para a primeira campanha de tráfego pago\n\nSeja direto, prático e específico. Evite respostas genéricas.` },
+  { id: 'planejamento', icon: '🗓️', title: 'Planejamento trimestral', sub: 'Gera calendário de conteúdo completo para os 3 meses',
+    tmpl: (c) => `Você é especialista em marketing de conteúdo para Instagram. Preciso que você monte um calendário de conteúdo trimestral completo para um cliente meu.\n\n— DADOS DO CLIENTE —\nSegmento: ${c?c.segmento:'[segmento]'}\nPúblico-alvo: [quem são os clientes dele]\nObjetivo do trimestre: ${c?c.meta:'[ex: aumentar seguidores, gerar leads]'}\nFormatos: Feed (fotos e carrosséis) e Reels\nFrequência: [ex: 3x por semana no feed, 1 reel por semana]\nTom de voz: ${c?c.tom:'[ex: descontraído, profissional, inspirador]'}\nDatas importantes: [datas comemorativas, promoções, eventos]\nAprendizados do trimestre anterior: [o que funcionou / não funcionou]\n\n— O QUE EU QUERO —\nMonte um calendário semana a semana para os 3 meses com:\n1. Semana e data sugerida\n2. Formato (feed ou reel)\n3. Tema do conteúdo\n4. Sugestão de legenda ou roteiro curto\n5. Objetivo daquele post\n\nOrganize por mês: mês 1 base, mês 2 autoridade, mês 3 conversão.\n\nSeja específico para esse segmento.` },
+  { id: 'conteudo', icon: '✏️', title: 'Criação de conteúdo', sub: 'Gera legendas e roteiros de reels da semana',
+    tmpl: (c) => `Você é um redator criativo especializado em marketing digital para Instagram.\n\n— CLIENTE —\nSegmento: ${c?c.segmento:'[segmento]'}\nTom de voz: ${c?c.tom:'[ex: descontraído e próximo]'}\nPúblico-alvo: [quem são os seguidores]\n\n— CONTEÚDO DA SEMANA —\nPost 1 — Feed: [tema do post]\nPost 2 — Reel: [tema do reel]\nPost 3 — Carrossel: [tema]\n\nPara cada conteúdo, me entregue:\n- Legenda completa (com emojis e chamada para ação)\n- Sugestão de hashtags (10 a 15)\n- Para reels: roteiro com gancho, desenvolvimento e CTA (máx. 60 segundos)\n\nEscreva de forma humana — não genérica.` },
+  { id: 'relatorio', icon: '📊', title: 'Análise de relatório', sub: 'Interpreta os dados e gera insights para o cliente',
+    tmpl: (c) => `Você é especialista em análise de marketing digital.\n\n— DADOS DO CLIENTE —\nSegmento: ${c?c.segmento:'[segmento]'}\nNome: ${c?c.nome:'[nome]'}\nObjetivo do trimestre: ${c?c.meta:'[objetivo definido no planejamento]'}\nTrimestre: [ex: Q1 2026 — janeiro a março]\n\n— INSTAGRAM —\nAlcance total: [número]\nImpressões: [número]\nSeguidores início: [número]\nSeguidores final: [número]\nTop 3 posts: [descreva brevemente]\nTrimestre anterior: [alcance e seguidores do tri passado]\n\n— TRÁFEGO PAGO —\nCampanhas: [nome e objetivo de cada uma]\nInvestimento total: R$ [valor]\nAlcance pago: [número]\nCliques: [número]\nCusto por resultado: R$ [valor]\nMelhor campanha: [qual teve melhor resultado]\n\n— O QUE EU QUERO —\n1. Resumo executivo em 3 linhas\n2. Análise do Instagram com contexto\n3. Análise das campanhas\n4. Top conteúdos e por que funcionaram\n5. 3 aprendizados do trimestre\n6. Recomendações para o próximo trimestre\n\nUse linguagem simples — será lido pelo dono do negócio.` },
+];
+
+// ============ CORES ============
+const CORES = ['#1a1916','#2d6a4f','#1e40af','#5b21b6','#92400e','#991b1b','#0f766e','#be185d'];
+
+// ============ CONFIG ============
+function applyConfig() {
+  const cfg = DB.config;
+  document.getElementById('sidebar-agency-name').textContent = cfg.nome || 'Eugência';
+  document.title = (cfg.nome || 'Eugência') + ' OS';
+  document.documentElement.style.setProperty('--agency-color', cfg.cor || '#1a1916');
+}
+
+function previewAgency() {
+  const v = document.getElementById('cfg-nome').value;
+  document.getElementById('sidebar-agency-name').textContent = v || 'Eugência';
+}
+
+function saveConfig() {
+  DB.config.nome = document.getElementById('cfg-nome').value || 'Eugência';
+  DB.config.voce = document.getElementById('cfg-voce').value;
+  save(DB);
+  applyConfig();
+  toast('Configurações salvas!');
+}
+
+function initConfig() {
+  document.getElementById('cfg-nome').value = DB.config.nome || '';
+  document.getElementById('cfg-voce').value = DB.config.voce || '';
+  const sw = document.getElementById('color-swatches');
+  sw.innerHTML = CORES.map(c => `<div class="color-swatch${DB.config.cor===c?' selected':''}" style="background:${c}" onclick="selectColor('${c}')"></div>`).join('');
+}
+
+function selectColor(c) {
+  DB.config.cor = c;
+  document.querySelectorAll('.color-swatch').forEach(s => s.classList.toggle('selected', s.style.background === c || s.style.backgroundColor === c));
+}
+
+// ============ NAV ============
+const PAGE_META = {
+  dashboard:        ['Dashboard','Visão geral da sua eugência'],
+  clientes:         ['Clientes','Progresso de cada cliente'],
+  'cliente-detalhe':['Cliente','Detalhes e checklists'],
+  calendario:       ['Calendário','Conteúdo programado'],
+  onboarding:       ['Onboarding','Do fechamento ao primeiro entregável'],
+  execucao:         ['Execução','O ciclo mensal de produção'],
+  relatorio:        ['Relatório','Da coleta à apresentação'],
+  prompts:          ['Prompts de IA','Templates prontos para o Claude'],
+  ciclo:            ['Ciclo Trimestral','O ritmo que sustenta tudo'],
+  configuracoes:    ['Configurações','Personalize sua eugência'],
+};
+
+function nav(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const pg = document.getElementById('page-' + id);
+  if (pg) pg.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if ((n.getAttribute('onclick')||'').includes("'"+id+"'")) n.classList.add('active');
+  });
+  const m = PAGE_META[id] || [id,''];
+  document.getElementById('topbar-title').textContent = m[0];
+  document.getElementById('topbar-sub').textContent = m[1];
+  if (id==='dashboard') renderDashboard();
+  if (id==='clientes') renderClientes();
+  if (id==='calendario') renderCalendario();
+  if (id==='prompts') renderPrompts();
+  if (id==='configuracoes') initConfig();
+  if (['onboarding','execucao','relatorio'].includes(id)) renderSteps(id);
+}
+
+// ============ CLIENTES ============
+const FASE_CFG = {
+  onboarding:   { label:'Onboarding',    cls:'badge-purple', pct:10,  color:'#5b21b6' },
+  diagnostico:  { label:'Diagnóstico',   cls:'badge-amber',  pct:30,  color:'#92400e' },
+  planejamento: { label:'Planejamento',  cls:'badge-amber',  pct:50,  color:'#92400e' },
+  execucao:     { label:'Execução',      cls:'badge-green',  pct:75,  color:'#2d6a4f' },
+  relatorio:    { label:'Relatório',     cls:'badge-blue',   pct:95,  color:'#1e40af' },
+};
+
+const AVATAR_COLORS = ['#2d6a4f','#1e40af','#5b21b6','#92400e','#991b1b','#0f766e','#be185d','#1a1916'];
+
+function getAvatarColor(nome) {
+  let h = 0; for (let c of nome) h += c.charCodeAt(0);
+  return AVATAR_COLORS[h % AVATAR_COLORS.length];
+}
+
+function addCliente() {
+  const nome = document.getElementById('fn-nome').value.trim();
+  if (!nome) { toast('Preencha o nome do cliente'); return; }
+  DB.clientes.push({
+    id: Date.now(), nome,
+    segmento: document.getElementById('fn-seg').value.trim(),
+    servicos: document.getElementById('fn-srv').value.trim(),
+    meta: document.getElementById('fn-meta').value.trim(),
+    tom: document.getElementById('fn-tom').value.trim(),
+    nota: document.getElementById('fn-nota').value.trim(),
+    fase: document.getElementById('fn-fase').value,
+    criado: new Date().toLocaleDateString('pt-BR'),
+    checks: {}
+  });
+  save(DB);
+  closeModal('modal-add-cliente');
+  ['fn-nome','fn-seg','fn-srv','fn-meta','fn-tom','fn-nota'].forEach(id => document.getElementById(id).value = '');
+  renderDashboard(); renderClientes();
+  toast('Cliente adicionado com sucesso!');
+}
+
+function renderClientes() {
+  const g = document.getElementById('clientes-grid');
+  if (!DB.clientes.length) {
+    g.innerHTML = `<div style="grid-column:1/-1"><div class="empty"><div class="empty-icon">👤</div><div class="empty-title">Nenhum cliente ainda</div><div class="empty-sub">Clique em "+ Novo cliente" para começar</div></div></div>`;
+    return;
+  }
+  g.innerHTML = DB.clientes.map(c => {
+    const fc = FASE_CFG[c.fase] || FASE_CFG.onboarding;
+    const ac = getAvatarColor(c.nome);
+    return `<div class="client-card" onclick="showCliente(${c.id})">
+      <div class="client-card-top">
+        <div class="client-avatar" style="background:${ac}">${c.nome[0].toUpperCase()}</div>
+        <div style="flex:1">
+          <div class="client-name">${c.nome}</div>
+          <div class="client-seg">${c.segmento||'Segmento não definido'}</div>
+        </div>
+        <span class="badge ${fc.cls}"><span class="badge-dot"></span>${fc.label}</span>
+      </div>
+      <div class="client-card-body">
+        <div class="client-services">${c.servicos||'Serviços não definidos'}</div>
+        <div class="client-progress-label"><span>Progresso</span><span>${fc.pct}%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${fc.pct}%;background:${fc.color}"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showCliente(id) {
+  const c = DB.clientes.find(x => x.id === id);
+  if (!c) return;
+  const fc = FASE_CFG[c.fase] || FASE_CFG.onboarding;
+  const ac = getAvatarColor(c.nome);
+  const proc = c.fase === 'diagnostico' || c.fase === 'planejamento' ? 'onboarding' : (c.fase === 'relatorio' ? 'relatorio' : c.fase === 'execucao' ? 'execucao' : 'onboarding');
+  const steps = PROCESSOS[proc] || PROCESSOS.onboarding;
+
+  const checklistHtml = steps.map((s, si) => s.checks.map((ch, ci) => {
+    const done = c.checks && c.checks[`${si}-${ci}`];
+    return `<div class="client-check-item check-item${done?' checked':''}" onclick="toggleClientCheck(${id},${si},${ci})" id="cck-${id}-${si}-${ci}">
+      <div class="check-box">${done?'✓':''}</div>
+      <div class="check-text">${ch}</div>
+      <span style="font-size:10px;color:var(--text3);white-space:nowrap">Etapa ${si+1}</span>
+    </div>`;
+  }).join('')).join('');
+
+  const postsCliente = DB.posts.filter(p => p.clienteId === id);
+  const postHtml = postsCliente.length ? postsCliente.sort((a,b)=>a.data.localeCompare(b.data)).map(p => `
+    <div class="post-item">
+      <div class="post-info">
+        <div class="post-title-text">${p.tema}</div>
+        <div class="post-date">${p.formato} · ${new Date(p.data+'T12:00:00').toLocaleDateString('pt-BR')}</div>
+      </div>
+      <span class="badge badge-${p.status==='publicado'?'green':p.status==='aprovacao'?'blue':'amber'}">${p.status==='producao'?'Em produção':p.status==='aprovacao'?'Aguardando':'Publicado'}</span>
+      <button class="btn btn-sm btn-ghost" onclick="deletePost(${p.id},${id})" style="color:var(--red)">✕</button>
+    </div>
+  `).join('') : '<div style="font-size:13px;color:var(--text3);padding:20px 0">Nenhum post cadastrado para este cliente.</div>';
+
+  document.getElementById('cliente-detalhe-content').innerHTML = `
+    <div class="cd-header">
+      <div class="cd-avatar" style="background:${ac}">${c.nome[0].toUpperCase()}</div>
+      <div style="flex:1">
+        <div class="cd-name">${c.nome}</div>
+        <div class="cd-meta">${c.segmento} · ${c.servicos||''} · Desde ${c.criado}</div>
+      </div>
+      <span class="badge" style="background:rgba(255,255,255,0.12);color:#fff">${fc.label}</span>
+    </div>
+    <div class="cd-body">
+      <div class="cd-tabs">
+        <div class="cd-tab active" onclick="cdTab(this,'cd-info')">Informações</div>
+        <div class="cd-tab" onclick="cdTab(this,'cd-checklist')">Checklist</div>
+        <div class="cd-tab" onclick="cdTab(this,'cd-posts')">Posts</div>
+        <div class="cd-tab" onclick="cdTab(this,'cd-prompts')">Prompts</div>
+      </div>
+
+      <div class="cd-panel active" id="cd-info">
+        <div class="info-grid">
+          <div class="info-item"><div class="info-label">Segmento</div><div class="info-value">${c.segmento||'—'}</div></div>
+          <div class="info-item"><div class="info-label">Serviços</div><div class="info-value">${c.servicos||'—'}</div></div>
+          <div class="info-item"><div class="info-label">Meta principal</div><div class="info-value">${c.meta||'—'}</div></div>
+          <div class="info-item"><div class="info-label">Tom de voz</div><div class="info-value">${c.tom||'—'}</div></div>
+        </div>
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:8px">Fase atual</div>
+        <select class="form-select" style="max-width:220px;margin-bottom:16px" onchange="mudarFase(${id},this.value)">
+          ${Object.entries(FASE_CFG).map(([k,v])=>`<option value="${k}"${c.fase===k?' selected':''}>${v.label}</option>`).join('')}
+        </select>
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:8px">Anotações</div>
+        <textarea class="note-box" placeholder="Observações sobre o cliente..." onblur="saveNota(${id},this.value)">${c.nota||''}</textarea>
+        <div style="display:flex;gap:8px;margin-top:16px">
+          <button class="btn btn-danger btn-sm" onclick="deleteCliente(${id})">Excluir cliente</button>
+        </div>
+      </div>
+
+      <div class="cd-panel" id="cd-checklist">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:14px">Checklist completo para a fase de <strong>${fc.label}</strong>. Marque conforme avança.</div>
+        <div class="checklist">${checklistHtml}</div>
+      </div>
+
+      <div class="cd-panel" id="cd-posts">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="font-size:13px;color:var(--text2)">Posts cadastrados para este cliente</div>
+          <button class="btn btn-sm btn-primary" onclick="openModalPost(${id})">+ Post</button>
+        </div>
+        <div id="cd-posts-list-${id}">${postHtml}</div>
+      </div>
+
+      <div class="cd-panel" id="cd-prompts">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:16px">Prompts preenchidos com os dados de <strong>${c.nome}</strong>. Copie e cole no Claude.</div>
+        ${PROMPTS.map(p => `
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+              <div style="font-size:13px;font-weight:700">${p.icon} ${p.title}</div>
+              <button class="btn btn-sm btn-primary" onclick="copyAndOpenClaude('${p.id}',${id})">Abrir no Claude</button>
+            </div>
+            <button class="btn btn-sm" onclick="copyPromptForClient('${p.id}',${id})">Copiar prompt</button>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  nav('cliente-detalhe');
+}
+
+function cdTab(el, panelId) {
+  el.closest('.cd-body').querySelectorAll('.cd-tab').forEach(t => t.classList.remove('active'));
+  el.closest('.cd-body').querySelectorAll('.cd-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+function toggleClientCheck(cid, si, ci) {
+  const c = DB.clientes.find(x => x.id === cid);
+  if (!c) return;
+  if (!c.checks) c.checks = {};
+  c.checks[`${si}-${ci}`] = !c.checks[`${si}-${ci}`];
+  save(DB);
+  const el = document.getElementById(`cck-${cid}-${si}-${ci}`);
+  if (el) {
+    el.classList.toggle('checked', c.checks[`${si}-${ci}`]);
+    const box = el.querySelector('.check-box');
+    if (box) box.textContent = c.checks[`${si}-${ci}`] ? '✓' : '';
+  }
+}
+
+function mudarFase(id, fase) {
+  const c = DB.clientes.find(x => x.id === id);
+  if (c) { c.fase = fase; save(DB); toast('Fase atualizada!'); renderDashboard(); }
+}
+
+function saveNota(id, val) {
+  const c = DB.clientes.find(x => x.id === id);
+  if (c) { c.nota = val; save(DB); }
+}
+
+function deleteCliente(id) {
+  if (!confirm('Remover este cliente e todos os seus dados?')) return;
+  DB.clientes = DB.clientes.filter(x => x.id !== id);
+  DB.posts = DB.posts.filter(p => p.clienteId !== id);
+  save(DB); nav('clientes'); toast('Cliente removido');
+}
+
+// ============ POSTS ============
+function openModalPost(clienteId) {
+  const sel = document.getElementById('fp-cliente');
+  sel.innerHTML = DB.clientes.map(c => `<option value="${c.id}"${c.id===clienteId?' selected':''}>${c.nome}</option>`).join('');
+  document.getElementById('fp-data').value = new Date().toISOString().split('T')[0];
+  openModal('modal-add-post');
+}
+
+function addPost() {
+  const tema = document.getElementById('fp-tema').value.trim();
+  if (!tema) { toast('Preencha o tema do post'); return; }
+  const cid = parseInt(document.getElementById('fp-cliente').value);
+  const post = {
+    id: Date.now(), clienteId: cid,
+    tema, data: document.getElementById('fp-data').value,
+    formato: document.getElementById('fp-formato').value,
+    status: document.getElementById('fp-status').value,
+  };
+  DB.posts.push(post); save(DB);
+  closeModal('modal-add-post');
+  document.getElementById('fp-tema').value = '';
+  renderCalendario(); renderDashboard();
+  toast('Post adicionado!');
+  // atualiza lista se estiver na tela do cliente
+  const listEl = document.getElementById(`cd-posts-list-${cid}`);
+  if (listEl) {
+    const postsCliente = DB.posts.filter(p => p.clienteId === cid);
+    listEl.innerHTML = postsCliente.sort((a,b)=>a.data.localeCompare(b.data)).map(p => `
+      <div class="post-item">
+        <div class="post-info"><div class="post-title-text">${p.tema}</div><div class="post-date">${p.formato} · ${new Date(p.data+'T12:00:00').toLocaleDateString('pt-BR')}</div></div>
+        <span class="badge badge-${p.status==='publicado'?'green':p.status==='aprovacao'?'blue':'amber'}">${p.status==='producao'?'Em produção':p.status==='aprovacao'?'Aguardando':'Publicado'}</span>
+        <button class="btn btn-sm btn-ghost" onclick="deletePost(${p.id},${cid})" style="color:var(--red)">✕</button>
+      </div>
+    `).join('');
+  }
+}
+
+function deletePost(pid, cid) {
+  DB.posts = DB.posts.filter(p => p.id !== pid); save(DB);
+  renderCalendario(); renderDashboard();
+  const listEl = document.getElementById(`cd-posts-list-${cid}`);
+  if (listEl) {
+    const postsCliente = DB.posts.filter(p => p.clienteId === cid);
+    listEl.innerHTML = postsCliente.length ? postsCliente.sort((a,b)=>a.data.localeCompare(b.data)).map(p => `
+      <div class="post-item">
+        <div class="post-info"><div class="post-title-text">${p.tema}</div><div class="post-date">${p.formato} · ${new Date(p.data+'T12:00:00').toLocaleDateString('pt-BR')}</div></div>
+        <span class="badge badge-${p.status==='publicado'?'green':p.status==='aprovacao'?'blue':'amber'}">${p.status==='producao'?'Em produção':p.status==='aprovacao'?'Aguardando':'Publicado'}</span>
+        <button class="btn btn-sm btn-ghost" onclick="deletePost(${p.id},${cid})" style="color:var(--red)">✕</button>
+      </div>
+    `).join('') : '<div style="font-size:13px;color:var(--text3);padding:20px 0">Nenhum post cadastrado.</div>';
+  }
+  toast('Post removido');
+}
+
+// ============ CALENDÁRIO ============
+let calDate = new Date();
+
+function renderCalendario() {
+  const y = calDate.getFullYear(), m = calDate.getMonth();
+  const meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  document.getElementById('cal-month-label').textContent = `${meses[m]} ${y}`;
+  const labels = document.getElementById('cal-labels');
+  labels.innerHTML = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'].map(d => `<div class="cal-day-label">${d}</div>`).join('');
+  const grid = document.getElementById('cal-days');
+  const first = new Date(y, m, 1).getDay();
+  const days = new Date(y, m+1, 0).getDate();
+  const today = new Date();
+  let html = '';
+  for (let i = 0; i < first; i++) {
+    const pd = new Date(y, m, -first+i+1);
+    html += `<div class="cal-day other-month"><div class="cal-day-num">${pd.getDate()}</div></div>`;
+  }
+  for (let d = 1; d <= days; d++) {
+    const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = today.getFullYear()===y && today.getMonth()===m && today.getDate()===d;
+    const dayPosts = DB.posts.filter(p => p.data === dateStr);
+    const postsHtml = dayPosts.map(p => {
+      const c = DB.clientes.find(x => x.id === p.clienteId);
+      const cls = p.status==='publicado'?'post-publicado':p.status==='aprovacao'?'post-aprovacao':'post-producao';
+      return `<div class="cal-post ${cls}" title="${p.tema} · ${c?c.nome:''}">${c?c.nome[0]+'. ':''} ${p.tema}</div>`;
+    }).join('');
+    html += `<div class="cal-day${isToday?' today':''}" onclick="openModalPostDate('${dateStr}')">
+      <div class="cal-day-num">${d}</div>${postsHtml}
+    </div>`;
+  }
+  const remaining = 42 - first - days;
+  for (let d = 1; d <= remaining; d++) html += `<div class="cal-day other-month"><div class="cal-day-num">${d}</div></div>`;
+  grid.innerHTML = html;
+}
+
+function openModalPostDate(date) {
+  const sel = document.getElementById('fp-cliente');
+  sel.innerHTML = DB.clientes.map(c => `<option value="${c.id}">${c.nome}</option>`).join('');
+  document.getElementById('fp-data').value = date;
+  openModal('modal-add-post');
+}
+
+function calPrev() { calDate = new Date(calDate.getFullYear(), calDate.getMonth()-1, 1); renderCalendario(); }
+function calNext() { calDate = new Date(calDate.getFullYear(), calDate.getMonth()+1, 1); renderCalendario(); }
+
+// ============ STEPS ============
+function renderSteps(processo) {
+  const steps = PROCESSOS[processo] || [];
+  document.getElementById('steps-' + processo).innerHTML = steps.map((s, si) => `
+    <div class="step-item">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-num" id="sn-${processo}-${si}">${si+1}</div>
+        <div class="step-info">
+          <div class="step-title">${s.title}</div>
+          <div class="step-subtitle">${s.sub}</div>
+        </div>
+        <div class="step-meta">
+          ${(s.tags||[]).map(t => t==='ia'?'<span class="tag tag-ia">✦ IA</span>':t==='trello'?'<span class="tag tag-trello">Trello</span>':'<span class="tag tag-you">Você</span>').join('')}
+        </div>
+        <div class="step-arrow">▶</div>
+      </div>
+      <div class="step-body">
+        <div class="checklist">
+          ${s.checks.map((ch, ci) => {
+            const k = `proc-${processo}-${si}-${ci}`;
+            const done = DB.checks && DB.checks[k];
+            return `<div class="check-item${done?' checked':''}" id="${k}" onclick="toggleGlobalCheck('${processo}','${si}','${ci}')">
+              <div class="check-box">${done?'✓':''}</div>
+              <span class="check-text">${ch}</span>
+            </div>`;
+          }).join('')}
+        </div>
+        ${s.prompt ? `<button class="btn btn-sm btn-primary" onclick="goToPrompt('${s.prompt}')">✦ Abrir prompt de IA</button>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleStep(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.step-arrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+
+function toggleGlobalCheck(proc, si, ci) {
+  const k = `proc-${proc}-${si}-${ci}`;
+  if (!DB.checks) DB.checks = {};
+  DB.checks[k] = !DB.checks[k];
+  save(DB);
+  const el = document.getElementById(k);
+  if (el) {
+    el.classList.toggle('checked', DB.checks[k]);
+    const box = el.querySelector('.check-box');
+    if (box) box.textContent = DB.checks[k] ? '✓' : '';
+  }
+}
+
+function goToPrompt(id) {
+  nav('prompts');
+  setTimeout(() => {
+    document.querySelectorAll('.prompt-card').forEach((card, i) => {
+      if (PROMPTS[i] && PROMPTS[i].id === id) {
+        const body = card.querySelector('.prompt-body');
+        const arrow = card.querySelector('.prompt-arrow');
+        body.classList.add('open'); arrow.classList.add('open');
+        card.scrollIntoView({ behavior:'smooth', block:'center' });
+      }
+    });
+  }, 200);
+}
+
+// ============ PROMPTS ============
+function renderPrompts() {
+  const sel = `<div class="prompt-client-select" style="display:flex;align-items:center;gap:10px">
+    <label style="font-size:12px;font-weight:700;color:var(--text2);white-space:nowrap">Cliente:</label>
+    <select class="form-select" style="max-width:220px" onchange="updatePrompts(this.value)">
+      <option value="">Selecione um cliente...</option>
+      ${DB.clientes.map(c=>`<option value="${c.id}">${c.nome}</option>`).join('')}
+    </select>
+    <span style="font-size:12px;color:var(--text3)">Os dados do cliente preenchem os prompts automaticamente</span>
+  </div>`;
+
+  document.getElementById('prompts-container').innerHTML = sel +
+    PROMPTS.map((p, i) => `
+      <div class="prompt-card" id="pcard-${p.id}">
+        <div class="prompt-header" onclick="togglePromptCard(this)">
+          <div class="prompt-icon">${p.icon}</div>
+          <div style="flex:1">
+            <div class="prompt-title">${p.title}</div>
+            <div class="prompt-sub">${p.sub}</div>
+          </div>
+          <div class="prompt-arrow">▶</div>
+        </div>
+        <div class="prompt-body">
+          <div class="prompt-text" id="ptxt-${p.id}">${p.tmpl(null)}</div>
+          <div class="prompt-actions">
+            <button class="btn btn-sm" onclick="copyPromptById('${p.id}')">Copiar</button>
+            <button class="btn btn-sm btn-primary" onclick="openClaudeWithPrompt('${p.id}')">✦ Abrir no Claude</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+}
+
+function updatePrompts(cid) {
+  const c = cid ? DB.clientes.find(x => x.id == cid) : null;
+  PROMPTS.forEach(p => {
+    const el = document.getElementById('ptxt-'+p.id);
+    if (el) el.textContent = p.tmpl(c);
+  });
+}
+
+function togglePromptCard(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.prompt-arrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+
+function copyPromptById(id) {
+  const el = document.getElementById('ptxt-'+id);
+  if (el) navigator.clipboard.writeText(el.textContent).then(() => toast('Prompt copiado!'));
+}
+
+function openClaudeWithPrompt(id) {
+  copyPromptById(id);
+  window.open('https://claude.ai', '_blank');
+  toast('Prompt copiado! Cole no Claude.');
+}
+
+function copyPromptForClient(pid, cid) {
+  const p = PROMPTS.find(x => x.id === pid);
+  const c = DB.clientes.find(x => x.id === cid);
+  if (p && c) navigator.clipboard.writeText(p.tmpl(c)).then(() => toast('Prompt copiado!'));
+}
+
+function copyAndOpenClaude(pid, cid) {
+  copyPromptForClient(pid, cid);
+  window.open('https://claude.ai', '_blank');
+  toast('Prompt copiado! Cole no Claude.');
+}
+
+// ============ DASHBOARD ============
+function renderDashboard() {
+  document.getElementById('s-total').textContent = DB.clientes.length;
+  document.getElementById('s-onb').textContent = DB.clientes.filter(c=>['onboarding','diagnostico'].includes(c.fase)).length;
+  document.getElementById('s-exe').textContent = DB.clientes.filter(c=>c.fase==='execucao').length;
+  const now = new Date();
+  document.getElementById('s-posts').textContent = DB.posts.filter(p => {
+    const d = new Date(p.data+'T12:00:00');
+    return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear();
+  }).length;
+  const dc = document.getElementById('dash-clients');
+  if (!DB.clientes.length) {
+    dc.innerHTML = `<div class="empty" style="padding:30px"><div class="empty-icon">👤</div><div class="empty-title">Nenhum cliente ainda</div><div class="empty-sub">Clique em "+ Novo cliente"</div></div>`;
+    return;
+  }
+  dc.innerHTML = DB.clientes.slice(-4).reverse().map(c => {
+    const fc = FASE_CFG[c.fase]||FASE_CFG.onboarding;
+    const ac = getAvatarColor(c.nome);
+    return `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer" onclick="showCliente(${c.id})">
+      <div style="width:34px;height:34px;border-radius:8px;background:${ac};display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:#fff;flex-shrink:0">${c.nome[0].toUpperCase()}</div>
+      <div style="flex:1"><div style="font-size:13px;font-weight:700">${c.nome}</div><div style="font-size:11px;color:var(--text3)">${c.segmento}</div></div>
+      <span class="badge ${fc.cls}" style="font-size:10px">${fc.label}</span>
+    </div>`;
+  }).join('');
+}
+
+// ============ MODAL ============
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.overlay').forEach(o => o.addEventListener('click', e => { if(e.target===o) o.classList.remove('open'); }));
+
+// ============ TOAST ============
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+// ============ UTILS ============
+function exportJSON() {
+  const blob = new Blob([JSON.stringify(DB, null, 2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'eugencia-backup.json'; a.click();
+  toast('Backup exportado!');
+}
+
+function clearAll() {
+  if (!confirm('Apagar TODOS os dados? Essa ação não pode ser desfeita.')) return;
+  localStorage.removeItem(KEY); DB = dflt(); save(DB);
+  renderDashboard(); renderClientes();
+  toast('Dados apagados');
+}
+
+// ============ MODAL POST - select clientes ============
+function initPostModal() {
+  const sel = document.getElementById('fp-cliente');
+  sel.innerHTML = DB.clientes.map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
+  document.getElementById('fp-data').value = new Date().toISOString().split('T')[0];
+}
+document.querySelector('[onclick="openModal(\'modal-add-post\')"]').addEventListener('click', initPostModal);
+
+// ============ INIT ============
+applyConfig();
+renderDashboard();
+renderSteps('onboarding');
+renderSteps('execucao');
+renderSteps('relatorio');
+renderCalendario();
+</script>
+</body>
+</html>
