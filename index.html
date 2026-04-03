@@ -493,10 +493,6 @@ body {
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 8A6 6 0 1 1 8 2"/><path d="M8 2l3-1-1 3"/></svg>
       Ciclo Trimestral
     </div>
-    <div class="nav-item" onclick="nav('materiais')">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12v10H2z"/><path d="M5 4V2h6v2"/><path d="M8 7v4M6 9h4"/></svg>
-      Materiais
-    </div>
   </div>
   <div class="sidebar-bottom">
     <div class="sidebar-bottom-btn" onclick="nav('configuracoes')">
@@ -610,46 +606,6 @@ body {
       <div id="prompts-container"></div>
     </div>
 
-    <!-- MATERIAIS -->
-    <div class="page" id="page-materiais">
-      <div class="section-h"><h2>Materiais</h2><p>Artes, vídeos e documentos organizados por cliente no Google Drive</p></div>
-      <div id="materiais-drive-warning" style="display:none">
-        <div style="background:var(--amber-bg);border:1px solid rgba(146,64,14,0.15);border-radius:var(--radius);padding:20px;display:flex;align-items:flex-start;gap:14px;margin-bottom:24px">
-          <span style="font-size:24px">☁️</span>
-          <div>
-            <div style="font-size:14px;font-weight:700;color:var(--amber);margin-bottom:4px">Google Drive não conectado</div>
-            <div style="font-size:13px;color:var(--amber);opacity:0.9;margin-bottom:12px">Conecte o Google Drive para fazer upload de arquivos direto pelo sistema.</div>
-            <button class="btn btn-sm" onclick="nav('configuracoes')" style="background:var(--amber);color:#fff;border-color:var(--amber)">Conectar agora →</button>
-          </div>
-        </div>
-      </div>
-      <div id="materiais-content">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
-          <select class="form-select" style="max-width:240px" id="mat-cliente-sel" onchange="loadMateriais(this.value)">
-            <option value="">Selecione um cliente...</option>
-          </select>
-          <button class="btn btn-primary" id="mat-upload-btn" style="display:none" onclick="document.getElementById('mat-file-input').click()">⬆ Fazer upload</button>
-          <input type="file" id="mat-file-input" style="display:none" multiple accept="image/*,video/*,.pdf,.ai,.psd,.fig" onchange="uploadFiles(this.files)">
-        </div>
-        <div id="mat-tabs" style="display:none">
-          <div style="display:flex;gap:4px;margin-bottom:16px;background:var(--bg3);padding:4px;border-radius:9px;width:fit-content">
-            <div class="cd-tab active" onclick="matTab(this,'artes')" style="padding:6px 16px">Artes</div>
-            <div class="cd-tab" onclick="matTab(this,'videos')" style="padding:6px 16px">Vídeos</div>
-            <div class="cd-tab" onclick="matTab(this,'docs')" style="padding:6px 16px">Documentos</div>
-          </div>
-          <div id="mat-artes" class="mat-panel active"></div>
-          <div id="mat-videos" class="mat-panel" style="display:none"></div>
-          <div id="mat-docs" class="mat-panel" style="display:none"></div>
-        </div>
-        <div id="mat-empty" style="display:none">
-          <div class="empty"><div class="empty-icon">📁</div><div class="empty-title">Nenhum arquivo ainda</div><div class="empty-sub">Clique em "Fazer upload" para enviar arquivos</div></div>
-        </div>
-        <div id="mat-select-prompt">
-          <div class="empty"><div class="empty-icon">👆</div><div class="empty-title">Selecione um cliente</div><div class="empty-sub">Escolha o cliente acima para ver ou enviar materiais</div></div>
-        </div>
-      </div>
-    </div>
-
     <!-- CICLO -->
     <div class="page" id="page-ciclo">
       <div class="section-h"><h2>Ciclo Trimestral</h2><p>O ritmo que garante que você nunca fique um dia sem postar</p></div>
@@ -719,50 +675,11 @@ body {
           <button class="btn" onclick="window.print()">🖨 Imprimir / Salvar PDF</button>
         </div>
       </div>
-      <!-- GOOGLE DRIVE CONFIG -->
-      <div class="settings-section" id="drive-config-section">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-          <div class="settings-title" style="margin-bottom:0">Google Drive</div>
-          <span class="badge" id="drive-status-badge" style="font-size:10px">Não conectado</span>
-        </div>
-        <div class="settings-sub">Conecte sua conta para fazer upload de artes e vídeos direto pelo sistema</div>
-        <div id="drive-not-connected">
-          <div style="background:var(--blue-bg);border:1px solid rgba(30,64,175,0.15);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--blue);line-height:1.7">
-            <strong>Como funciona:</strong> você cria credenciais gratuitas no Google Cloud e cola aqui. O sistema faz o resto — cria pastas por cliente automaticamente e faz o upload direto para o seu Drive.
-          </div>
-          <div class="form-group">
-            <label class="form-label">Client ID</label>
-            <input class="form-input" id="drive-client-id" placeholder="Cole aqui seu Client ID do Google Cloud">
-          </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button class="btn btn-primary" onclick="connectDrive()">Conectar Google Drive</button>
-            <button class="btn" onclick="openDriveTutorial()">📖 Ver tutorial de configuração</button>
-          </div>
-        </div>
-        <div id="drive-connected" style="display:none">
-          <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--green-bg);border:1px solid rgba(45,106,79,0.15);border-radius:var(--radius-sm);margin-bottom:14px">
-            <span style="font-size:18px">✅</span>
-            <div>
-              <div style="font-size:13px;font-weight:700;color:var(--green)">Google Drive conectado</div>
-              <div style="font-size:12px;color:var(--green);opacity:0.8" id="drive-user-email"></div>
-            </div>
-          </div>
-          <button class="btn btn-danger btn-sm" onclick="disconnectDrive()">Desconectar Drive</button>
-        </div>
-      </div>
-
       <div class="settings-section">
         <div class="settings-title" style="color:var(--red)">Zona de perigo</div>
         <div class="settings-sub">Ações irreversíveis</div>
         <button class="btn btn-danger" onclick="clearAll()">Apagar todos os dados</button>
       </div>
-    </div>
-
-    <!-- TUTORIAL DRIVE -->
-    <div class="page" id="page-drive-tutorial">
-      <button class="btn btn-sm btn-ghost" onclick="nav('configuracoes')" style="margin-bottom:20px">← Voltar para configurações</button>
-      <div class="section-h"><h2>Configurar Google Drive</h2><p>Leva cerca de 15 minutos. Feito uma vez, funciona para sempre.</p></div>
-      <div id="tutorial-steps-container"></div>
     </div>
 
   </div>
@@ -936,8 +853,6 @@ const PAGE_META = {
   relatorio:        ['Relatório','Da coleta à apresentação'],
   prompts:          ['Prompts de IA','Templates prontos para o Claude'],
   ciclo:            ['Ciclo Trimestral','O ritmo que sustenta tudo'],
-  materiais:        ['Materiais','Artes e vídeos no Google Drive'],
-  'drive-tutorial': ['Tutorial Google Drive','Passo a passo para conectar'],
   configuracoes:    ['Configurações','Personalize sua eugência'],
 };
 
@@ -1455,327 +1370,13 @@ function initPostModal() {
 }
 document.querySelector('[onclick="openModal(\'modal-add-post\')"]').addEventListener('click', initPostModal);
 
-// ============ GOOGLE DRIVE ============
-const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.file';
-let driveToken = null;
-let driveClientId = null;
-
-function getDriveConfig() {
-  return DB.config.driveClientId || null;
-}
-
-function connectDrive() {
-  const clientId = document.getElementById('drive-client-id').value.trim();
-  if (!clientId) { toast('Cole o Client ID antes de conectar'); return; }
-  DB.config.driveClientId = clientId;
-  save(DB);
-  driveClientId = clientId;
-  initGoogleAuth();
-}
-
-function initGoogleAuth() {
-  if (!driveClientId) { driveClientId = getDriveConfig(); }
-  if (!driveClientId) return;
-  if (typeof google === 'undefined') {
-    const s = document.createElement('script');
-    s.src = 'https://accounts.google.com/gsi/client';
-    s.onload = () => startOAuth();
-    document.head.appendChild(s);
-  } else { startOAuth(); }
-}
-
-function startOAuth() {
-  const client = google.accounts.oauth2.initTokenClient({
-    client_id: driveClientId,
-    scope: DRIVE_SCOPE + ' https://www.googleapis.com/auth/userinfo.email',
-    callback: (resp) => {
-      if (resp.error) { toast('Erro ao conectar: ' + resp.error); return; }
-      driveToken = resp.access_token;
-      DB.config.driveConnected = true;
-      save(DB);
-      fetchDriveUser();
-      updateDriveUI(true);
-      toast('Google Drive conectado com sucesso!');
-    }
-  });
-  client.requestAccessToken();
-}
-
-async function fetchDriveUser() {
-  if (!driveToken) return;
-  try {
-    const r = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-      headers: { Authorization: 'Bearer ' + driveToken }
-    });
-    const d = await r.json();
-    if (d.email) {
-      DB.config.driveEmail = d.email;
-      save(DB);
-      const el = document.getElementById('drive-user-email');
-      if (el) el.textContent = d.email;
-    }
-  } catch(e) {}
-}
-
-function disconnectDrive() {
-  if (!confirm('Desconectar o Google Drive?')) return;
-  driveToken = null;
-  DB.config.driveConnected = false;
-  DB.config.driveEmail = '';
-  save(DB);
-  updateDriveUI(false);
-  toast('Google Drive desconectado');
-}
-
-function updateDriveUI(connected) {
-  const nc = document.getElementById('drive-not-connected');
-  const co = document.getElementById('drive-connected');
-  const badge = document.getElementById('drive-status-badge');
-  if (!nc || !co) return;
-  if (connected) {
-    nc.style.display = 'none'; co.style.display = 'block';
-    if (badge) { badge.textContent = 'Conectado'; badge.className = 'badge badge-green'; }
-    const em = document.getElementById('drive-user-email');
-    if (em && DB.config.driveEmail) em.textContent = DB.config.driveEmail;
-  } else {
-    nc.style.display = 'block'; co.style.display = 'none';
-    if (badge) { badge.textContent = 'Não conectado'; badge.className = 'badge badge-gray'; }
-  }
-}
-
-// Cria ou encontra pasta no Drive
-async function getOrCreateFolder(name, parentId) {
-  if (!driveToken) return null;
-  const query = `name='${name}' and mimeType='application/vnd.google-apps.folder' and trashed=false${parentId ? ` and '${parentId}' in parents` : ''}`;
-  const r = await fetch(`https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&fields=files(id,name)`, {
-    headers: { Authorization: 'Bearer ' + driveToken }
-  });
-  const d = await r.json();
-  if (d.files && d.files.length > 0) return d.files[0].id;
-  const cr = await fetch('https://www.googleapis.com/drive/v3/files', {
-    method: 'POST',
-    headers: { Authorization: 'Bearer ' + driveToken, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, mimeType: 'application/vnd.google-apps.folder', ...(parentId ? { parents: [parentId] } : {}) })
-  });
-  const cd = await cr.json();
-  return cd.id;
-}
-
-// Estrutura: Eugência OS / Cliente / Artes | Vídeos | Documentos
-async function getClientFolder(clienteNome, subpasta) {
-  const root = await getOrCreateFolder('Eugência OS', null);
-  const clientFolder = await getOrCreateFolder(clienteNome, root);
-  const sub = await getOrCreateFolder(subpasta, clientFolder);
-  return sub;
-}
-
-function getSubpasta(file) {
-  if (file.type.startsWith('image/') || file.name.match(/\.(psd|ai|fig|sketch)$/i)) return 'Artes';
-  if (file.type.startsWith('video/')) return 'Vídeos';
-  return 'Documentos';
-}
-
-async function uploadFiles(files) {
-  if (!driveToken) {
-    toast('Conecte o Google Drive primeiro');
-    nav('configuracoes'); return;
-  }
-  if (!files || files.length === 0) return;
-  const cid = document.getElementById('mat-cliente-sel').value;
-  const cliente = DB.clientes.find(x => x.id == cid);
-  if (!cliente) { toast('Selecione um cliente'); return; }
-
-  toast('Enviando arquivos...');
-  const btn = document.getElementById('mat-upload-btn');
-  if (btn) btn.textContent = '⏳ Enviando...';
-
-  for (const file of files) {
-    try {
-      const subpasta = getSubpasta(file);
-      const folderId = await getClientFolder(cliente.nome, subpasta);
-      const meta = { name: file.name, parents: [folderId] };
-      const form = new FormData();
-      form.append('metadata', new Blob([JSON.stringify(meta)], { type: 'application/json' }));
-      form.append('file', file);
-      const r = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webViewLink,mimeType,createdTime,size', {
-        method: 'POST',
-        headers: { Authorization: 'Bearer ' + driveToken },
-        body: form
-      });
-      const d = await r.json();
-      if (d.id) {
-        if (!DB.materiais) DB.materiais = [];
-        DB.materiais.push({ id: d.id, clienteId: parseInt(cid), nome: d.name, link: d.webViewLink, tipo: subpasta.toLowerCase(), mimeType: d.mimeType, criado: new Date().toLocaleDateString('pt-BR') });
-        save(DB);
-      }
-    } catch(e) { toast('Erro ao enviar ' + file.name); }
-  }
-
-  if (btn) btn.textContent = '⬆ Fazer upload';
-  document.getElementById('mat-file-input').value = '';
-  toast('Upload concluído!');
-  loadMateriais(cid);
-}
-
-function loadMateriais(cid) {
-  const tabs = document.getElementById('mat-tabs');
-  const empty = document.getElementById('mat-empty');
-  const prompt = document.getElementById('mat-select-prompt');
-  const uploadBtn = document.getElementById('mat-upload-btn');
-
-  if (!cid) {
-    if (tabs) tabs.style.display = 'none';
-    if (empty) empty.style.display = 'none';
-    if (prompt) prompt.style.display = 'block';
-    if (uploadBtn) uploadBtn.style.display = 'none';
-    return;
-  }
-
-  if (prompt) prompt.style.display = 'none';
-  if (uploadBtn) uploadBtn.style.display = 'inline-flex';
-
-  const materiais = (DB.materiais || []).filter(m => m.clienteId == cid);
-
-  if (!materiais.length) {
-    if (tabs) tabs.style.display = 'none';
-    if (empty) empty.style.display = 'block';
-    return;
-  }
-
-  if (tabs) tabs.style.display = 'block';
-  if (empty) empty.style.display = 'none';
-
-  const artes = materiais.filter(m => m.tipo === 'artes');
-  const videos = materiais.filter(m => m.tipo === 'vídeos');
-  const docs = materiais.filter(m => m.tipo === 'documentos');
-
-  renderMateriaisGrid('mat-artes', artes);
-  renderMateriaisGrid('mat-videos', videos);
-  renderMateriaisGrid('mat-docs', docs);
-}
-
-function renderMateriaisGrid(containerId, items) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  if (!items.length) {
-    el.innerHTML = '<div style="font-size:13px;color:var(--text3);padding:20px 0">Nenhum arquivo nesta categoria.</div>';
-    return;
-  }
-  el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px">
-    ${items.map(m => `
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;box-shadow:var(--shadow)">
-        <div style="height:100px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:32px">
-          ${m.mimeType && m.mimeType.startsWith('image/') ? `<img src="https://drive.google.com/thumbnail?id=${m.id}&sz=w200" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='🖼'">` : m.mimeType && m.mimeType.startsWith('video/') ? '🎬' : '📄'}
-        </div>
-        <div style="padding:10px">
-          <div style="font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px" title="${m.nome}">${m.nome}</div>
-          <div style="font-size:11px;color:var(--text3);margin-bottom:8px">${m.criado}</div>
-          <div style="display:flex;gap:4px">
-            <a href="${m.link}" target="_blank" class="btn btn-sm" style="flex:1;text-align:center;text-decoration:none;font-size:11px">Abrir</a>
-            <button class="btn btn-sm btn-ghost" onclick="deleteMaterial('${m.id}')" style="color:var(--red);font-size:11px">✕</button>
-          </div>
-        </div>
-      </div>
-    `).join('')}
-  </div>`;
-}
-
-function deleteMaterial(id) {
-  DB.materiais = (DB.materiais || []).filter(m => m.id !== id);
-  save(DB);
-  const cid = document.getElementById('mat-cliente-sel').value;
-  loadMateriais(cid);
-  toast('Arquivo removido da lista');
-}
-
-function matTab(el, panel) {
-  el.closest('[style*="background:var(--bg3)"]').querySelectorAll('.cd-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.mat-panel').forEach(p => p.style.display = 'none');
-  el.classList.add('active');
-  const pe = document.getElementById('mat-' + panel);
-  if (pe) pe.style.display = 'block';
-}
-
-function initMateriais() {
-  const sel = document.getElementById('mat-cliente-sel');
-  if (!sel) return;
-  sel.innerHTML = '<option value="">Selecione um cliente...</option>' +
-    DB.clientes.map(c => `<option value="${c.id}">${c.nome}</option>`).join('');
-  const warn = document.getElementById('materiais-drive-warning');
-  if (warn) warn.style.display = DB.config.driveConnected ? 'none' : 'block';
-}
-
-// Tutorial Drive
-const DRIVE_TUTORIAL = [
-  { step: 1, title: 'Acesse o Google Cloud Console', icon: '🌐', desc: 'Abra <a href="https://console.cloud.google.com" target="_blank" style="color:var(--blue)">console.cloud.google.com</a> e faça login com sua conta Google.', action: null },
-  { step: 2, title: 'Crie um novo projeto', icon: '📁', desc: 'No topo da página, clique em "Selecionar projeto" → "Novo projeto". Dê o nome "Eugencia OS" e clique em "Criar".', action: null },
-  { step: 3, title: 'Ative a API do Google Drive', icon: '⚡', desc: 'No menu lateral, vá em "APIs e serviços" → "Biblioteca". Pesquise "Google Drive API", clique nela e depois em "Ativar".', action: null },
-  { step: 4, title: 'Configure a tela de consentimento', icon: '📋', desc: 'Vá em "APIs e serviços" → "Tela de consentimento OAuth". Selecione "Externo" e clique em "Criar". Preencha o nome do app como "Eugencia OS" e seu e-mail. Avance até salvar.', action: null },
-  { step: 5, title: 'Crie as credenciais', icon: '🔑', desc: 'Vá em "APIs e serviços" → "Credenciais" → "Criar credenciais" → "ID do cliente OAuth". Tipo: "Aplicativo da Web". No campo "Origens JavaScript autorizadas", adicione a URL do seu sistema no Vercel (ex: https://eugencia-os.vercel.app). Clique em "Criar".', action: null },
-  { step: 6, title: 'Copie o Client ID', icon: '📋', desc: 'Uma janela vai aparecer com seu "Client ID". Copie esse código — ele tem o formato algo como "123456789-abc.apps.googleusercontent.com".', action: null },
-  { step: 7, title: 'Cole no sistema', icon: '✅', desc: 'Volte para as Configurações do sistema, cole o Client ID no campo "Client ID" e clique em "Conectar Google Drive".', action: () => nav('configuracoes') },
-];
-
-function openDriveTutorial() {
-  nav('drive-tutorial');
-}
-
-function renderDriveTutorial() {
-  const el = document.getElementById('tutorial-steps-container');
-  if (!el) return;
-  el.innerHTML = DRIVE_TUTORIAL.map(s => `
-    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;gap:18px;align-items:flex-start">
-      <div style="width:36px;height:36px;border-radius:9px;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${s.icon}</div>
-      <div style="flex:1">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:3px">Passo ${s.step}</div>
-        <div style="font-size:15px;font-weight:700;margin-bottom:6px">${s.title}</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.7">${s.desc}</div>
-        ${s.action ? `<button class="btn btn-sm btn-primary" onclick="DRIVE_TUTORIAL[${s.step-1}].action()" style="margin-top:10px">Ir para configurações →</button>` : ''}
-      </div>
-    </div>
-  `).join('');
-}
-
-// ============ GOOGLE DRIVE INIT ============
-if (DB.config.driveClientId) {
-  driveClientId = DB.config.driveClientId;
-  const s = document.createElement('script');
-  s.src = 'https://accounts.google.com/gsi/client';
-  document.head.appendChild(s);
-}
-
+// ============ INIT ============
 applyConfig();
 renderDashboard();
 renderSteps('onboarding');
 renderSteps('execucao');
 renderSteps('relatorio');
 renderCalendario();
-
-// Atualizar nav para novos itens
-const _origNav = nav;
-// Patch nav para materiais e drive-tutorial
-const navOrig = nav;
-window.nav = function(id) {
-  navOrig(id);
-  if (id === 'materiais') { initMateriais(); }
-  if (id === 'drive-tutorial') {
-    // registrar página
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const pg = document.getElementById('page-drive-tutorial');
-    if (pg) pg.classList.add('active');
-    document.getElementById('topbar-title').textContent = 'Tutorial Google Drive';
-    document.getElementById('topbar-sub').textContent = 'Passo a passo para conectar o Google Drive';
-    renderDriveTutorial();
-  }
-  if (id === 'configuracoes') {
-    updateDriveUI(!!DB.config.driveConnected);
-    if (DB.config.driveClientId) {
-      const inp = document.getElementById('drive-client-id');
-      if (inp) inp.value = DB.config.driveClientId;
-    }
-  }
-};
-
 </script>
 </body>
 </html>
