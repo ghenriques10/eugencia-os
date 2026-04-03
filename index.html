@@ -1112,19 +1112,24 @@ function saveConfig() {
 function initConfig() {
   document.getElementById('cfg-nome').value = DB.config.nome || '';
   document.getElementById('cfg-voce').value = DB.config.voce || '';
-  const cors = ['#1a1916','#2d6a4f','#1e40af','#5b21b6','#92400e','#991b1b','#0f766e','#be185d','#b45309','#1d4ed8'];
-  const sw = document.getElementById('color-swatches');
-  sw.innerHTML = cors.map(c => '<div class="color-swatch'+(DB.config.cor===c?' selected':'')+'" style="background:'+c+';width:30px;height:30px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:all 0.15s;" data-cor="'+c+'" onclick="selectColor(''+c+'')"></div>').join('');
+  var cors = ['#1a1916','#2d6a4f','#1e40af','#5b21b6','#92400e','#991b1b','#0f766e','#be185d','#b45309','#1d4ed8'];
+  var sw = document.getElementById('color-swatches');
+  var swHtml = '';
+  cors.forEach(function(c) {
+    var sel = DB.config.cor === c ? ' selected' : '';
+    swHtml += '<div class="color-swatch' + sel + '" data-cor="' + c + '" style="background:' + c + ';width:30px;height:30px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:all 0.15s;display:inline-block;" onclick="selectColor(this.dataset.cor)"></div>';
+  });
+  sw.innerHTML = swHtml;
   if (DB.config.logo) {
-    const pi = document.getElementById('logo-preview-img');
-    const ph = document.getElementById('logo-upload-placeholder');
-    const rb = document.getElementById('logo-remove-btn');
+    var pi = document.getElementById('logo-preview-img');
+    var ph = document.getElementById('logo-upload-placeholder');
+    var rb = document.getElementById('logo-remove-btn');
     if (pi) { pi.src = DB.config.logo; pi.style.display = 'block'; }
     if (ph) ph.style.display = 'none';
     if (rb) rb.style.display = 'inline-flex';
   }
   updateDriveUI(!!DB.config.driveConnected);
-  const dci = document.getElementById('drive-client-id');
+  var dci = document.getElementById('drive-client-id');
   if (dci && DB.config.driveClientId) dci.value = DB.config.driveClientId;
 }
 
