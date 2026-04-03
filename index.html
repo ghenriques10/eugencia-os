@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eugência OS</title>
-<link id="favicon-link" rel="icon" type="image/svg+xml" href="">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -35,40 +34,6 @@
   --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
   --agency-color: #1a1916;
 }
-.sidebar { background: var(--accent) !important; }
-.btn-primary { background: var(--accent) !important; border-color: var(--accent) !important; color: #fff !important; }
-.btn-primary:hover { opacity: 0.88; }
-.cd-header { background: var(--accent) !important; }
-.nav-item.active { background: rgba(255,255,255,0.13) !important; color: #fff !important; }
-
-/* LOGO UPLOAD */
-.logo-upload-area { border: 2px dashed var(--border2); border-radius: var(--radius-sm); padding: 20px; text-align: center; cursor: pointer; transition: all 0.15s; }
-.logo-upload-area:hover { border-color: var(--accent); background: var(--bg); }
-.logo-preview-img { max-height: 56px; max-width: 140px; object-fit: contain; display: none; margin: 0 auto 8px; }
-
-/* LOCK */
-.lock-wrap { position: relative; }
-.lock-overlay { position: absolute; inset: 0; background: rgba(247,245,240,0.97); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; border-radius: var(--radius-sm); z-index: 10; min-height: 120px; }
-.lock-box { text-align: center; padding: 20px; }
-.lock-icon { font-size: 28px; margin-bottom: 8px; }
-.lock-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
-.lock-input { width: 180px; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; text-align: center; letter-spacing: 0.15em; margin-bottom: 8px; display: block; margin-left: auto; margin-right: auto; }
-.lock-input:focus { border-color: var(--accent); }
-.lock-err { font-size: 12px; color: var(--red); margin-top: 4px; }
-
-/* FINANCE */
-.fin-row { display: flex; align-items: center; gap: 10px; padding: 10px 13px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 5px; }
-.fin-info { flex: 1; }
-.fin-desc { font-size: 13px; font-weight: 600; }
-.fin-meta { font-size: 11px; color: var(--text3); margin-top: 1px; }
-.fin-val { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 400; white-space: nowrap; }
-
-/* RECIBO PRINT */
-@media print {
-  body > * { display: none !important; }
-  #recibo-print-area { display: block !important; }
-}
-#recibo-print-area { display: none; position: fixed; inset: 0; background: #fff; z-index: 9999; padding: 40px; }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -487,12 +452,9 @@ body {
 
 <!-- SIDEBAR -->
 <nav class="sidebar">
-  <div class="sidebar-logo" style="padding:20px 18px;display:flex;align-items:center;gap:10px;min-height:68px">
-    <img id="sidebar-logo-img" src="" style="width:34px;height:34px;border-radius:8px;object-fit:contain;display:none;flex-shrink:0" alt="Logo">
-    <div>
-      <div class="logo-agency" id="sidebar-agency-name">Eugência</div>
-      <div class="logo-tag">Sistema operacional</div>
-    </div>
+  <div class="sidebar-logo">
+    <div class="logo-agency" id="sidebar-agency-name">Eugência</div>
+    <div class="logo-tag">Sistema operacional</div>
   </div>
   <div class="sidebar-nav">
     <div class="nav-group-label">Visão geral</div>
@@ -531,11 +493,6 @@ body {
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 8A6 6 0 1 1 8 2"/><path d="M8 2l3-1-1 3"/></svg>
       Ciclo Trimestral
     </div>
-    <div class="nav-item" onclick="nav('financeiro')">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1v14M4 4h6a2 2 0 010 4H5a2 2 0 000 4h7"/></svg>
-      Financeiro
-      <span id="nav-fin-alert" style="display:none;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:8px;margin-left:auto">!</span>
-    </div>
     <div class="nav-item" onclick="nav('materiais')">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12v10H2z"/><path d="M5 4V2h6v2"/><path d="M8 7v4M6 9h4"/></svg>
       Materiais
@@ -569,8 +526,7 @@ body {
         <div class="stat"><div class="stat-label">Clientes ativos</div><div class="stat-val" id="s-total">0</div><div class="stat-sub">cadastrados</div></div>
         <div class="stat"><div class="stat-label">Em onboarding</div><div class="stat-val" id="s-onb">0</div><div class="stat-sub">novos clientes</div></div>
         <div class="stat"><div class="stat-label">Em execução</div><div class="stat-val" id="s-exe">0</div><div class="stat-sub">em andamento</div></div>
-        <div class="stat"><div class="stat-label">Receita mensal</div><div class="stat-val" id="s-receita" style="font-size:24px">R$0</div><div class="stat-sub">em contratos</div></div>
-        <div class="stat"><div class="stat-label">Pendências</div><div class="stat-val" id="s-pendente">0</div><div class="stat-sub">a receber</div></div>
+        <div class="stat"><div class="stat-label">Posts no mês</div><div class="stat-val" id="s-posts">0</div><div class="stat-sub">programados</div></div>
       </div>
       <div class="grid-2">
         <div class="card card-pad">
@@ -694,12 +650,6 @@ body {
       </div>
     </div>
 
-    <!-- FINANCEIRO -->
-    <div class="page" id="page-financeiro">
-      <div class="section-h"><h2>Financeiro</h2><p>Receitas, gastos e saúde financeira da eugência</p></div>
-      <div id="financeiro-content"></div>
-    </div>
-
     <!-- CICLO -->
     <div class="page" id="page-ciclo">
       <div class="section-h"><h2>Ciclo Trimestral</h2><p>O ritmo que garante que você nunca fique um dia sem postar</p></div>
@@ -744,20 +694,7 @@ body {
       <div class="section-h"><h2>Configurações</h2><p>Personalize sua eugência</p></div>
       <div class="settings-section">
         <div class="settings-title">Identidade da agência</div>
-        <div class="settings-sub">Logo, nome e cor de destaque do sistema</div>
-        <div class="form-group">
-          <label class="form-label">Logo da agência</label>
-          <div class="logo-upload-area" id="logo-upload-area" onclick="document.getElementById('logo-file-input').click()">
-            <img id="logo-preview-img" class="logo-preview-img" src="" alt="Logo">
-            <div id="logo-upload-placeholder">
-              <div style="font-size:28px;margin-bottom:6px">🖼</div>
-              <div style="font-size:13px;font-weight:600;margin-bottom:2px">Clique para fazer upload do logo</div>
-              <div style="font-size:12px;color:var(--text3)">PNG, SVG ou JPG · Aparece no topo do menu</div>
-            </div>
-            <input type="file" id="logo-file-input" style="display:none" accept="image/*" onchange="uploadLogo(this)">
-          </div>
-          <button id="logo-remove-btn" class="btn btn-sm" style="display:none;margin-top:8px;color:var(--red);border-color:rgba(153,27,27,0.2)" onclick="removeLogo()">Remover logo</button>
-        </div>
+        <div class="settings-sub">Personalize com o nome e cor da sua marca</div>
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Nome da agência</label>
@@ -769,26 +706,10 @@ body {
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">Cor de destaque do sistema</label>
+          <label class="form-label">Cor de destaque</label>
           <div class="color-swatches" id="color-swatches"></div>
         </div>
         <button class="btn btn-primary" onclick="saveConfig()">Salvar configurações</button>
-      </div>
-
-      <div class="settings-section">
-        <div class="settings-title">Senha da área privada</div>
-        <div class="settings-sub">Protege logins e senhas dos clientes</div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Nova senha</label>
-            <input class="form-input" type="password" id="cfg-senha" placeholder="Digite a nova senha">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Confirmar senha</label>
-            <input class="form-input" type="password" id="cfg-senha2" placeholder="Repita a senha">
-          </div>
-        </div>
-        <button class="btn btn-primary" onclick="salvarSenha()">Salvar senha</button>
       </div>
       <div class="settings-section">
         <div class="settings-title">Exportar dados</div>
@@ -875,10 +796,6 @@ body {
           </select>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Valor mensal (R$)</label><input class="form-input" type="number" id="fn-valor" placeholder="Ex: 1500.00"></div>
-        <div class="form-group"><label class="form-label">Dia de vencimento</label><input class="form-input" type="number" id="fn-venc" placeholder="Ex: 5" min="1" max="31"></div>
-      </div>
       <div class="form-group"><label class="form-label">Anotações iniciais</label><textarea class="form-textarea" id="fn-nota" placeholder="Observações sobre o cliente, contexto, detalhes importantes..."></textarea></div>
     </div>
     <div class="modal-footer">
@@ -924,109 +841,13 @@ body {
   </div>
 </div>
 
-<!-- MODAL RECIBO -->
-<div class="overlay" id="modal-recibo">
-  <div class="modal" style="max-width:600px">
-    <div class="modal-header"><div class="modal-title">Gerar recibo</div><div class="modal-sub">Personalize e exporte em PDF</div></div>
-    <div class="modal-body">
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Cliente</label><input class="form-input" id="rec-cliente" placeholder="Nome do cliente"></div>
-        <div class="form-group"><label class="form-label">Data</label><input class="form-input" type="date" id="rec-data"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Valor (R$)</label><input class="form-input" type="number" id="rec-valor" placeholder="0.00" oninput="previewRecibo()"></div>
-        <div class="form-group"><label class="form-label">Nº do recibo</label><input class="form-input" id="rec-num" placeholder="001"></div>
-      </div>
-      <div class="form-group"><label class="form-label">Descrição dos serviços</label><textarea class="form-textarea" id="rec-desc" placeholder="Ex: Gestão de redes sociais + Tráfego pago — Janeiro/2026" oninput="previewRecibo()"></textarea></div>
-      <div class="divider"></div>
-      <div id="recibo-preview" style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:24px"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('modal-recibo')">Fechar</button>
-      <button class="btn btn-primary" onclick="imprimirRecibo()">🖨 Imprimir / PDF</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL ADD CREDENCIAL -->
-<div class="overlay" id="modal-add-cred">
-  <div class="modal">
-    <div class="modal-header"><div class="modal-title">Adicionar acesso</div><div class="modal-sub">Login ou senha do cliente</div></div>
-    <div class="modal-body">
-      <div class="form-group"><label class="form-label">Serviço *</label><input class="form-input" id="cred-servico" placeholder="Ex: Instagram, Meta Ads, Site..."></div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Login / E-mail</label><input class="form-input" id="cred-login" placeholder="usuario@email.com"></div>
-        <div class="form-group"><label class="form-label">Senha</label><input class="form-input" id="cred-senha" placeholder="••••••••"></div>
-      </div>
-      <div class="form-group"><label class="form-label">Observação</label><input class="form-input" id="cred-obs" placeholder="Ex: Conta pessoal do proprietário"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('modal-add-cred')">Cancelar</button>
-      <button class="btn btn-primary" onclick="salvarCredencial()">Salvar</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL ADD GASTO -->
-<div class="overlay" id="modal-add-gasto">
-  <div class="modal">
-    <div class="modal-header"><div class="modal-title">Novo gasto</div><div class="modal-sub">Gasto operacional da eugência</div></div>
-    <div class="modal-body">
-      <div class="form-group"><label class="form-label">Descrição *</label><input class="form-input" id="gas-desc" placeholder="Ex: Canva Pro, ferramenta..."></div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Valor (R$)</label><input class="form-input" type="number" id="gas-valor" placeholder="0.00"></div>
-        <div class="form-group"><label class="form-label">Data</label><input class="form-input" type="date" id="gas-data"></div>
-      </div>
-      <div class="form-group"><label class="form-label">Categoria</label>
-        <select class="form-select" id="gas-cat">
-          <option>Ferramentas / Software</option><option>Marketing</option><option>Educação</option><option>Equipamentos</option><option>Outros</option>
-        </select>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('modal-add-gasto')">Cancelar</button>
-      <button class="btn btn-primary" onclick="addGasto()">Salvar gasto</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL ADD PAGAMENTO CLIENTE -->
-<div class="overlay" id="modal-add-pagamento">
-  <div class="modal">
-    <div class="modal-header"><div class="modal-title">Registrar pagamento</div></div>
-    <div class="modal-body">
-      <input type="hidden" id="pag-cliente-id">
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Mês de referência</label><input class="form-input" id="pag-mes" placeholder="Ex: Janeiro/2026"></div>
-        <div class="form-group"><label class="form-label">Valor (R$)</label><input class="form-input" type="number" id="pag-valor" placeholder="0.00"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">Data pagamento</label><input class="form-input" type="date" id="pag-data"></div>
-        <div class="form-group"><label class="form-label">Status</label>
-          <select class="form-select" id="pag-status">
-            <option value="pago">Pago</option><option value="pendente">Pendente</option><option value="atrasado">Atrasado</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group"><label class="form-label">Observação</label><input class="form-input" id="pag-obs" placeholder="Ex: Pago via Pix"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('modal-add-pagamento')">Cancelar</button>
-      <button class="btn btn-primary" onclick="addPagamento()">Registrar</button>
-    </div>
-  </div>
-</div>
-
-<!-- ÁREA DE IMPRESSÃO DO RECIBO -->
-<div id="recibo-print-area" style="display:none"></div>
-
 <div class="toast" id="toast"></div>
 
 <script>
 // ============ DATA ============
-const KEY = 'eugencia_os_v3';
+const KEY = 'eugencia_os_v2';
 function load() { try { return JSON.parse(localStorage.getItem(KEY)) || dflt(); } catch(e) { return dflt(); } }
-function dflt() { return { config: { nome: 'Eugência', voce: '', cor: '#1a1916', logo: '', senha: '' }, clientes: [], posts: [], checks: {}, materiais: [], docsCliente: [], postFiles: [], credenciais: [], pagamentos: [], gastos: [] }; }
+function dflt() { return { config: { nome: 'Eugência', voce: '', cor: '#1a1916' }, clientes: [], posts: [], checks: {} }; }
 function save(d) { localStorage.setItem(KEY, JSON.stringify(d)); }
 let DB = load();
 
@@ -1072,28 +893,11 @@ const PROMPTS = [
 const CORES = ['#1a1916','#2d6a4f','#1e40af','#5b21b6','#92400e','#991b1b','#0f766e','#be185d'];
 
 // ============ CONFIG ============
-function updateFavicon(name, cor) {
-  const initials = (name||'E').substring(0,2).toUpperCase();
-  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="'+cor+'"/><text x="16" y="22" text-anchor="middle" font-family="serif" font-size="15" font-weight="bold" fill="white">'+initials+'</text></svg>';
-  const blob = new Blob([svg], {type:'image/svg+xml'});
-  const url = URL.createObjectURL(blob);
-  const fl = document.getElementById('favicon-link');
-  if (fl) fl.href = url;
-}
-
 function applyConfig() {
   const cfg = DB.config;
-  const name = cfg.nome || 'Eugência';
-  const cor = cfg.cor || '#1a1916';
-  document.getElementById('sidebar-agency-name').textContent = name;
-  document.title = name + ' OS';
-  document.documentElement.style.setProperty('--accent', cor);
-  const logoImg = document.getElementById('sidebar-logo-img');
-  if (logoImg) {
-    if (cfg.logo) { logoImg.src = cfg.logo; logoImg.style.display = 'block'; }
-    else { logoImg.style.display = 'none'; }
-  }
-  updateFavicon(name, cor);
+  document.getElementById('sidebar-agency-name').textContent = cfg.nome || 'Eugência';
+  document.title = (cfg.nome || 'Eugência') + ' OS';
+  document.documentElement.style.setProperty('--agency-color', cfg.cor || '#1a1916');
 }
 
 function previewAgency() {
@@ -1112,32 +916,13 @@ function saveConfig() {
 function initConfig() {
   document.getElementById('cfg-nome').value = DB.config.nome || '';
   document.getElementById('cfg-voce').value = DB.config.voce || '';
-  var cors = ['#1a1916','#2d6a4f','#1e40af','#5b21b6','#92400e','#991b1b','#0f766e','#be185d','#b45309','#1d4ed8'];
-  var sw = document.getElementById('color-swatches');
-  var swHtml = '';
-  cors.forEach(function(c) {
-    var sel = DB.config.cor === c ? ' selected' : '';
-    swHtml += '<div class="color-swatch' + sel + '" data-cor="' + c + '" style="background:' + c + ';width:30px;height:30px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:all 0.15s;display:inline-block;" onclick="selectColor(this.dataset.cor)"></div>';
-  });
-  sw.innerHTML = swHtml;
-  if (DB.config.logo) {
-    var pi = document.getElementById('logo-preview-img');
-    var ph = document.getElementById('logo-upload-placeholder');
-    var rb = document.getElementById('logo-remove-btn');
-    if (pi) { pi.src = DB.config.logo; pi.style.display = 'block'; }
-    if (ph) ph.style.display = 'none';
-    if (rb) rb.style.display = 'inline-flex';
-  }
-  updateDriveUI(!!DB.config.driveConnected);
-  var dci = document.getElementById('drive-client-id');
-  if (dci && DB.config.driveClientId) dci.value = DB.config.driveClientId;
+  const sw = document.getElementById('color-swatches');
+  sw.innerHTML = CORES.map(c => `<div class="color-swatch${DB.config.cor===c?' selected':''}" style="background:${c}" onclick="selectColor('${c}')"></div>`).join('');
 }
 
 function selectColor(c) {
   DB.config.cor = c;
-  document.documentElement.style.setProperty('--accent', c);
-  updateFavicon(DB.config.nome||'Eugência', c);
-  document.querySelectorAll('.color-swatch').forEach(s => s.classList.toggle('selected', s.getAttribute('data-cor') === c));
+  document.querySelectorAll('.color-swatch').forEach(s => s.classList.toggle('selected', s.style.background === c || s.style.backgroundColor === c));
 }
 
 // ============ NAV ============
@@ -1153,7 +938,6 @@ const PAGE_META = {
   ciclo:            ['Ciclo Trimestral','O ritmo que sustenta tudo'],
   materiais:        ['Materiais','Artes e vídeos no Google Drive'],
   'drive-tutorial': ['Tutorial Google Drive','Passo a passo para conectar'],
-  financeiro:       ['Financeiro','Receitas e gastos da eugência'],
   configuracoes:    ['Configurações','Personalize sua eugência'],
 };
 
@@ -1172,7 +956,6 @@ function nav(id) {
   if (id==='clientes') renderClientes();
   if (id==='calendario') renderCalendario();
   if (id==='prompts') renderPrompts();
-  if (id==='financeiro') renderFinanceiro();
   if (id==='configuracoes') initConfig();
   if (['onboarding','execucao','relatorio'].includes(id)) renderSteps(id);
 }
@@ -1204,14 +987,12 @@ function addCliente() {
     tom: document.getElementById('fn-tom').value.trim(),
     nota: document.getElementById('fn-nota').value.trim(),
     fase: document.getElementById('fn-fase').value,
-    valor: parseFloat(document.getElementById('fn-valor').value)||0,
-    vencimento: parseInt(document.getElementById('fn-venc').value)||5,
     criado: new Date().toLocaleDateString('pt-BR'),
     checks: {}
   });
   save(DB);
   closeModal('modal-add-cliente');
-  ['fn-nome','fn-seg','fn-srv','fn-meta','fn-tom','fn-nota','fn-valor','fn-venc'].forEach(id => document.getElementById(id).value = '');
+  ['fn-nome','fn-seg','fn-srv','fn-meta','fn-tom','fn-nota'].forEach(id => document.getElementById(id).value = '');
   renderDashboard(); renderClientes();
   toast('Cliente adicionado com sucesso!');
 }
@@ -1262,25 +1043,13 @@ function showCliente(id) {
 
   const postsCliente = DB.posts.filter(p => p.clienteId === id);
   const postHtml = postsCliente.length ? postsCliente.sort((a,b)=>a.data.localeCompare(b.data)).map(p => `
-    <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:6px;overflow:hidden">
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 13px;cursor:pointer" onclick="togglePostDetail('post-detail-${p.id}')">
-        <div style="flex:1">
-          <div style="font-size:13px;font-weight:600">${p.tema}</div>
-          <div style="font-size:11px;color:var(--text3);margin-top:1px">${p.formato} · ${new Date(p.data+'T12:00:00').toLocaleDateString('pt-BR')}</div>
-        </div>
-        <select class="form-select" style="width:auto;font-size:11px;padding:3px 6px;border-radius:4px" onclick="event.stopPropagation()" onchange="updatePostStatus(${p.id},this.value,${id})">
-          <option value="producao" ${p.status==='producao'?'selected':''}>Em produção</option>
-          <option value="aprovacao" ${p.status==='aprovacao'?'selected':''}>Aguardando</option>
-          <option value="publicado" ${p.status==='publicado'?'selected':''}>Publicado</option>
-        </select>
-        <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();deletePost(${p.id},${id})" style="color:var(--red)">✕</button>
+    <div class="post-item">
+      <div class="post-info">
+        <div class="post-title-text">${p.tema}</div>
+        <div class="post-date">${p.formato} · ${new Date(p.data+'T12:00:00').toLocaleDateString('pt-BR')}</div>
       </div>
-      <div id="post-detail-${p.id}" style="display:none;border-top:1px solid var(--border);padding:10px 13px;background:var(--bg2)">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:8px">Arquivos do post</div>
-        <div id="post-files-${p.id}">${renderPostFiles(p.id)}</div>
-        <button class="btn btn-sm" style="margin-top:8px" onclick="document.getElementById('post-file-input-${p.id}').click()">⬆ Upload arquivo</button>
-        <input type="file" id="post-file-input-${p.id}" style="display:none" multiple accept="image/*,video/*,.pdf" onchange="uploadPostFile(this.files,${p.id})">
-      </div>
+      <span class="badge badge-${p.status==='publicado'?'green':p.status==='aprovacao'?'blue':'amber'}">${p.status==='producao'?'Em produção':p.status==='aprovacao'?'Aguardando':'Publicado'}</span>
+      <button class="btn btn-sm btn-ghost" onclick="deletePost(${p.id},${id})" style="color:var(--red)">✕</button>
     </div>
   `).join('') : '<div style="font-size:13px;color:var(--text3);padding:20px 0">Nenhum post cadastrado para este cliente.</div>';
 
@@ -1298,9 +1067,6 @@ function showCliente(id) {
         <div class="cd-tab active" onclick="cdTab(this,'cd-info')">Informações</div>
         <div class="cd-tab" onclick="cdTab(this,'cd-checklist')">Checklist</div>
         <div class="cd-tab" onclick="cdTab(this,'cd-posts')">Posts</div>
-        <div class="cd-tab" onclick="cdTab(this,'cd-docs')">Documentos</div>
-        <div class="cd-tab" onclick="cdTab(this,'cd-financeiro')">Financeiro</div>
-        <div class="cd-tab" onclick="cdTab(this,'cd-privado')">🔒 Privado</div>
         <div class="cd-tab" onclick="cdTab(this,'cd-prompts')">Prompts</div>
       </div>
 
@@ -1347,47 +1113,7 @@ function showCliente(id) {
           </div>
         `).join('')}
       </div>
-
-      <!-- DOCUMENTOS -->
-      <div class="cd-panel" id="cd-docs">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div style="font-size:13px;color:var(--text2)">Briefing, logo e documentos do cliente</div>
-          <button class="btn btn-sm btn-primary" onclick="document.getElementById('doc-file-${id}').click()">⬆ Upload</button>
-          <input type="file" id="doc-file-${id}" style="display:none" multiple accept="image/*,.pdf,.doc,.docx,.ai,.psd,.fig,.zip" onchange="uploadDocCliente(this.files,${id})">
-        </div>
-        <div id="docs-list-${id}">${renderDocsList(id)}</div>
-      </div>
-
-      <!-- FINANCEIRO DO CLIENTE -->
-      <div class="cd-panel" id="cd-financeiro">
-        ${renderFinanceiroCliente(id)}
-      </div>
-
-      <!-- PRIVADO -->
-      <div class="cd-panel" id="cd-privado">
-        <div class="lock-wrap" id="lock-wrap-${id}">
-          <div class="lock-overlay" id="lock-overlay-${id}">
-            <div class="lock-box">
-              <div class="lock-icon">🔒</div>
-              <div class="lock-title">Área protegida</div>
-              <input class="lock-input" type="password" id="lock-input-${id}" placeholder="••••••" onkeydown="if(event.key==='Enter')unlockPrivado(${id})">
-              <button class="btn btn-primary btn-sm" onclick="unlockPrivado(${id})">Desbloquear</button>
-              <div class="lock-err" id="lock-err-${id}"></div>
-              ${!DB.config.senha ? '<div style="font-size:11px;color:var(--amber);margin-top:8px">Defina uma senha em Configurações</div>' : ''}
-            </div>
-          </div>
-          <div id="privado-content-${id}" style="min-height:120px">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-              <div style="font-size:13px;color:var(--text2)">Logins, senhas e acessos do cliente</div>
-              <button class="btn btn-sm btn-primary" onclick="addCredencial(${id})">+ Adicionar</button>
-            </div>
-            <div id="creds-list-${id}">${renderCredenciais(id)}</div>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </div>
   `;
   nav('cliente-detalhe');
 }
@@ -1673,16 +1399,11 @@ function renderDashboard() {
   document.getElementById('s-total').textContent = DB.clientes.length;
   document.getElementById('s-onb').textContent = DB.clientes.filter(c=>['onboarding','diagnostico'].includes(c.fase)).length;
   document.getElementById('s-exe').textContent = DB.clientes.filter(c=>c.fase==='execucao').length;
-  const receita = DB.clientes.reduce((s,c)=>s+(c.valor||0),0);
-  const el_rec = document.getElementById('s-receita');
-  if (el_rec) el_rec.textContent = 'R$'+receita.toFixed(0);
-  const pendentes = DB.clientes.filter(c => {
-    if (!c.valor) return false;
-    const hoje = new Date().getDate();
-    return c.vencimento && c.vencimento >= hoje;
+  const now = new Date();
+  document.getElementById('s-posts').textContent = DB.posts.filter(p => {
+    const d = new Date(p.data+'T12:00:00');
+    return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear();
   }).length;
-  const el_pen = document.getElementById('s-pendente');
-  if (el_pen) el_pen.textContent = pendentes;
   const dc = document.getElementById('dash-clients');
   if (!DB.clientes.length) {
     dc.innerHTML = `<div class="empty" style="padding:30px"><div class="empty-icon">👤</div><div class="empty-title">Nenhum cliente ainda</div><div class="empty-sub">Clique em "+ Novo cliente"</div></div>`;
@@ -2029,13 +1750,6 @@ renderSteps('onboarding');
 renderSteps('execucao');
 renderSteps('relatorio');
 renderCalendario();
-// Iniciar Google API se configurado
-if (DB.config.driveClientId) {
-  driveClientId = DB.config.driveClientId;
-  const s = document.createElement('script');
-  s.src = 'https://accounts.google.com/gsi/client';
-  document.head.appendChild(s);
-}
 
 // Atualizar nav para novos itens
 const _origNav = nav;
