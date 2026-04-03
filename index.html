@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eugência OS</title>
+<title>Solo | Agência de Marketing</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -371,13 +371,7 @@ body {
 .settings-section { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; box-shadow: var(--shadow); }
 .settings-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
 .settings-sub { font-size: 13px; color: var(--text3); margin-bottom: 20px; }
-.color-swatches { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-.color-swatch {
-  width: 32px; height: 32px; border-radius: 8px;
-  cursor: pointer; border: 2px solid transparent;
-  transition: all 0.15s;
-}
-.color-swatch.selected { border-color: var(--text); box-shadow: 0 0 0 2px var(--bg2), 0 0 0 4px var(--text); }
+
 
 /* TOAST */
 .toast {
@@ -453,7 +447,7 @@ body {
 <!-- SIDEBAR -->
 <nav class="sidebar">
   <div class="sidebar-logo">
-    <div class="logo-agency" id="sidebar-agency-name">Eugência</div>
+    <div class="logo-agency" id="sidebar-agency-name">Solo | Agência</div>
     <div class="logo-tag">Sistema operacional</div>
   </div>
   <div class="sidebar-nav">
@@ -661,10 +655,6 @@ body {
             <input class="form-input" id="cfg-voce" placeholder="Ex: Maria Silva">
           </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Cor de destaque</label>
-          <div class="color-swatches" id="color-swatches"></div>
-        </div>
         <button class="btn btn-primary" onclick="saveConfig()">Salvar configurações</button>
       </div>
       <div class="settings-section">
@@ -713,6 +703,15 @@ body {
           </select>
         </div>
       </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Público-alvo</label><input class="form-input" id="fn-publico" placeholder="Ex: Mulheres 25-40, mães, executivos..."></div>
+        <div class="form-group"><label class="form-label">Diferencial do negócio</label><input class="form-input" id="fn-diferencial" placeholder="Ex: Único delivery vegano da cidade"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Cidade / Região</label><input class="form-input" id="fn-cidade" placeholder="Ex: São Paulo, SP"></div>
+        <div class="form-group"><label class="form-label">Instagram</label><input class="form-input" id="fn-instagram" placeholder="Ex: @restaurantedamaria"></div>
+      </div>
+      <div class="form-group"><label class="form-label">O que o cliente NÃO quer ver</label><input class="form-input" id="fn-naoquerer" placeholder="Ex: Texto em cima de foto, cores muito chamativas..."></div>
       <div class="form-group"><label class="form-label">Anotações iniciais</label><textarea class="form-textarea" id="fn-nota" placeholder="Observações sobre o cliente, contexto, detalhes importantes..."></textarea></div>
     </div>
     <div class="modal-footer">
@@ -762,9 +761,9 @@ body {
 
 <script>
 // ============ DATA ============
-const KEY = 'eugencia_os_v2';
+const KEY = 'solo_os_v1_2';
 function load() { try { return JSON.parse(localStorage.getItem(KEY)) || dflt(); } catch(e) { return dflt(); } }
-function dflt() { return { config: { nome: 'Eugência', voce: '', cor: '#1a1916' }, clientes: [], posts: [], checks: {} }; }
+function dflt() { return { config: { nome: 'Solo | Agência de Marketing', voce: '' }, clientes: [], posts: [], checks: {} }; }
 function save(d) { localStorage.setItem(KEY, JSON.stringify(d)); }
 let DB = load();
 
@@ -795,26 +794,23 @@ const PROCESSOS = {
 
 const PROMPTS = [
   { id: 'briefing', icon: '📋', title: 'Briefing personalizado', sub: 'Gera perguntas sob medida para o segmento do cliente',
-    tmpl: (c) => `Vou fechar com um novo cliente e preciso da sua ajuda para montar um briefing personalizado para ele.\n\nSegmento: ${c?c.segmento:'[segmento do cliente]'}\nO que eu já sei sobre ele: ${c?c.nome+', '+c.servicos:'[conte o que você sabe]'}\nServiços que vou prestar: ${c?c.servicos:'[gestão de redes sociais / tráfego pago / criação de conteúdo]'}\n\nCom base nisso, me gera um briefing completo e personalizado para esse segmento com todas as perguntas que eu preciso fazer para esse cliente antes de começar a trabalhar.\n\nO briefing deve estar formatado em perguntas diretas, organizadas por blocos temáticos, pronto para eu enviar no WhatsApp ou usar como roteiro de conversa.` },
+    tmpl: (c) => `Vou fechar com um novo cliente e preciso da sua ajuda para montar um briefing personalizado para ele.\n\nNome: ${c?c.nome:'[nome]'}\nSegmento: ${c?c.segmento:'[segmento]'}\nCidade: ${c?c.cidade||'[cidade]':'[cidade]'}\nServiços contratados: ${c?c.servicos:'[serviços]'}\nMeta principal: ${c?c.meta:'[meta]'}\nO que já sei sobre ele: ${c&&c.nota?c.nota:'[observações iniciais]'}\n\nCom base nisso, me gera um briefing completo e personalizado para esse segmento com todas as perguntas que eu preciso fazer para esse cliente antes de começar a trabalhar.\n\nO briefing deve estar formatado em perguntas diretas, organizadas por blocos temáticos, pronto para eu enviar no WhatsApp ou usar como roteiro de conversa.` },
   { id: 'diagnostico', icon: '🔍', title: 'Diagnóstico com IA', sub: 'Analisa e gera diagnóstico completo de presença digital',
-    tmpl: (c) => `Você é um especialista em marketing digital com foco em Instagram e tráfego pago. Vou te passar as informações de um novo cliente e quero que você gere um diagnóstico completo de presença digital.\n\n— SOBRE O NEGÓCIO —\nNome: ${c?c.nome:'[nome do cliente]'}\nSegmento: ${c?c.segmento:'[segmento]'}\nCidade/região: [onde atua]\nPúblico-alvo: [quem são os clientes]\nDiferencial: [o que torna esse negócio único]\nMeta principal: ${c?c.meta:'[ex: mais seguidores, mais vendas]'}\n\n— DADOS ATUAIS DO INSTAGRAM —\nSeguidores: [número]\nFrequência de posts: [ex: 3x por semana]\nEngajamento médio: [likes + comentários por post]\nTipos de conteúdo: [fotos, reels, stories...]\nBio atual: [copie a bio]\nLink na bio: [para onde direciona]\nUsa tráfego pago? [sim/não]\n\n— CONCORRENTES —\n[Cole aqui o que o ChatGPT levantou sobre concorrentes e mercado]\n\n— O QUE EU QUERO —\n1. Pontos fortes do perfil atual\n2. Pontos fracos e oportunidades perdidas\n3. Análise dos concorrentes vs. esse cliente\n4. Posicionamento recomendado\n5. Tom de voz sugerido com 3 exemplos de legenda\n6. 5 recomendações estratégicas prioritárias\n7. Objetivo para a primeira campanha de tráfego pago\n\nSeja direto, prático e específico. Evite respostas genéricas.` },
+    tmpl: (c) => `Você é um especialista em marketing digital com foco em Instagram e tráfego pago. Vou te passar as informações de um novo cliente e quero que você gere um diagnóstico completo de presença digital.\n\n— SOBRE O NEGÓCIO —\nNome: ${c?c.nome:'[nome do cliente]'}\nSegmento: ${c?c.segmento:'[segmento]'}\nCidade/região: ${c?c.cidade||'[onde atua]':'[onde atua]'}\nPúblico-alvo: ${c?c.publico||'[quem são os clientes]':'[quem são os clientes]'}\nDiferencial: ${c?c.diferencial||'[o que torna único]':'[o que torna único]'}\nMeta principal: ${c?c.meta:'[ex: mais seguidores, mais vendas]'}\nInstagram: ${c?c.instagram||'[@ do perfil]':'[@ do perfil]'}\n\n— DADOS ATUAIS DO INSTAGRAM —\nSeguidores: [número]\nFrequência de posts: [ex: 3x por semana]\nEngajamento médio: [likes + comentários por post]\nTipos de conteúdo: [fotos, reels, stories...]\nBio atual: [copie a bio]\nLink na bio: [para onde direciona]\nUsa tráfego pago? [sim/não]\n\n— CONCORRENTES —\n[Cole aqui o que o ChatGPT levantou sobre concorrentes e mercado]\n\n— O QUE EU QUERO —\n1. Pontos fortes do perfil atual\n2. Pontos fracos e oportunidades perdidas\n3. Análise dos concorrentes vs. esse cliente\n4. Posicionamento recomendado\n5. Tom de voz sugerido com 3 exemplos de legenda\n6. 5 recomendações estratégicas prioritárias\n7. Objetivo para a primeira campanha de tráfego pago\n\nSeja direto, prático e específico. Evite respostas genéricas.` },
   { id: 'planejamento', icon: '🗓️', title: 'Planejamento trimestral', sub: 'Gera calendário de conteúdo completo para os 3 meses',
-    tmpl: (c) => `Você é especialista em marketing de conteúdo para Instagram. Preciso que você monte um calendário de conteúdo trimestral completo para um cliente meu.\n\n— DADOS DO CLIENTE —\nSegmento: ${c?c.segmento:'[segmento]'}\nPúblico-alvo: [quem são os clientes dele]\nObjetivo do trimestre: ${c?c.meta:'[ex: aumentar seguidores, gerar leads]'}\nFormatos: Feed (fotos e carrosséis) e Reels\nFrequência: [ex: 3x por semana no feed, 1 reel por semana]\nTom de voz: ${c?c.tom:'[ex: descontraído, profissional, inspirador]'}\nDatas importantes: [datas comemorativas, promoções, eventos]\nAprendizados do trimestre anterior: [o que funcionou / não funcionou]\n\n— O QUE EU QUERO —\nMonte um calendário semana a semana para os 3 meses com:\n1. Semana e data sugerida\n2. Formato (feed ou reel)\n3. Tema do conteúdo\n4. Sugestão de legenda ou roteiro curto\n5. Objetivo daquele post\n\nOrganize por mês: mês 1 base, mês 2 autoridade, mês 3 conversão.\n\nSeja específico para esse segmento.` },
+    tmpl: (c) => `Você é especialista em marketing de conteúdo para Instagram. Preciso que você monte um calendário de conteúdo trimestral completo para um cliente meu.\n\n— DADOS DO CLIENTE —\nNome: ${c?c.nome:'[nome]'}\nSegmento: ${c?c.segmento:'[segmento]'}\nCidade: ${c?c.cidade||'[cidade]':'[cidade]'}\nPúblico-alvo: ${c?c.publico||'[quem são os clientes]':'[quem são os clientes]'}\nDiferencial: ${c?c.diferencial||'[diferencial]':'[diferencial]'}\nObjetivo do trimestre: ${c?c.meta:'[objetivo]'}\nFormatos: Feed (fotos e carrosséis) e Reels\nTom de voz: ${c?c.tom:'[tom de voz]'}\nO que NÃO usar: ${c?c.naoquerer||'[restrições]':'[restrições]'}\nDatas importantes: [datas comemorativas, promoções]\nAprendizados do trimestre anterior: [o que funcionou / não funcionou]\n\n— O QUE EU QUERO —\nMonte um calendário semana a semana para os 3 meses com:\n1. Semana e data sugerida\n2. Formato (feed ou reel)\n3. Tema do conteúdo\n4. Sugestão de legenda ou roteiro curto\n5. Objetivo daquele post\n\nOrganize por mês: mês 1 base, mês 2 autoridade, mês 3 conversão.\n\nSeja específico para esse segmento.` },
   { id: 'conteudo', icon: '✏️', title: 'Criação de conteúdo', sub: 'Gera legendas e roteiros de reels da semana',
-    tmpl: (c) => `Você é um redator criativo especializado em marketing digital para Instagram.\n\n— CLIENTE —\nSegmento: ${c?c.segmento:'[segmento]'}\nTom de voz: ${c?c.tom:'[ex: descontraído e próximo]'}\nPúblico-alvo: [quem são os seguidores]\n\n— CONTEÚDO DA SEMANA —\nPost 1 — Feed: [tema do post]\nPost 2 — Reel: [tema do reel]\nPost 3 — Carrossel: [tema]\n\nPara cada conteúdo, me entregue:\n- Legenda completa (com emojis e chamada para ação)\n- Sugestão de hashtags (10 a 15)\n- Para reels: roteiro com gancho, desenvolvimento e CTA (máx. 60 segundos)\n\nEscreva de forma humana — não genérica.` },
+    tmpl: (c) => `Você é um redator criativo especializado em marketing digital para Instagram.\n\n— CONTEXTO DO CLIENTE —\nNome: ${c?c.nome:'[nome]'}\nSegmento: ${c?c.segmento:'[segmento]'}\nPúblico-alvo: ${c?c.publico||'[público]':'[público]'}\nTom de voz: ${c?c.tom:'[tom de voz]'}\nDiferencial: ${c?c.diferencial||'[diferencial]':'[diferencial]'}\nO que NÃO usar: ${c?c.naoquerer||'[restrições]':'[restrições]'}\n\n— CONTEÚDO DA SEMANA —\nPost 1 — Feed: [tema do post]\nPost 2 — Reel: [tema do reel]\nPost 3 — Carrossel: [tema]\n\nPara cada conteúdo, me entregue:\n- Legenda completa (com emojis e chamada para ação)\n- Sugestão de hashtags (10 a 15)\n- Para reels: roteiro com gancho, desenvolvimento e CTA (máx. 60 segundos)\n\nEscreva de forma humana — não genérica.` },
   { id: 'relatorio', icon: '📊', title: 'Análise de relatório', sub: 'Interpreta os dados e gera insights para o cliente',
-    tmpl: (c) => `Você é especialista em análise de marketing digital.\n\n— DADOS DO CLIENTE —\nSegmento: ${c?c.segmento:'[segmento]'}\nNome: ${c?c.nome:'[nome]'}\nObjetivo do trimestre: ${c?c.meta:'[objetivo definido no planejamento]'}\nTrimestre: [ex: Q1 2026 — janeiro a março]\n\n— INSTAGRAM —\nAlcance total: [número]\nImpressões: [número]\nSeguidores início: [número]\nSeguidores final: [número]\nTop 3 posts: [descreva brevemente]\nTrimestre anterior: [alcance e seguidores do tri passado]\n\n— TRÁFEGO PAGO —\nCampanhas: [nome e objetivo de cada uma]\nInvestimento total: R$ [valor]\nAlcance pago: [número]\nCliques: [número]\nCusto por resultado: R$ [valor]\nMelhor campanha: [qual teve melhor resultado]\n\n— O QUE EU QUERO —\n1. Resumo executivo em 3 linhas\n2. Análise do Instagram com contexto\n3. Análise das campanhas\n4. Top conteúdos e por que funcionaram\n5. 3 aprendizados do trimestre\n6. Recomendações para o próximo trimestre\n\nUse linguagem simples — será lido pelo dono do negócio.` },
+    tmpl: (c) => `Você é especialista em análise de marketing digital.\n\n— DADOS DO CLIENTE —\nNome: ${c?c.nome:'[nome]'}\nSegmento: ${c?c.segmento:'[segmento]'}\nCidade: ${c?c.cidade||'[cidade]':'[cidade]'}\nInstagram: ${c?c.instagram||'[@ do perfil]':'[@ do perfil]'}\nPúblico-alvo: ${c?c.publico||'[público]':'[público]'}\nObjetivo do trimestre: ${c?c.meta:'[objetivo]'}\nTrimestre: [ex: Q1 2026 — janeiro a março]\n\n— INSTAGRAM —\nAlcance total: [número]\nImpressões: [número]\nSeguidores início: [número]\nSeguidores final: [número]\nTop 3 posts: [descreva brevemente]\nTrimestre anterior: [alcance e seguidores do tri passado]\n\n— TRÁFEGO PAGO —\nCampanhas: [nome e objetivo de cada uma]\nInvestimento total: R$ [valor]\nAlcance pago: [número]\nCliques: [número]\nCusto por resultado: R$ [valor]\nMelhor campanha: [qual teve melhor resultado]\n\n— O QUE EU QUERO —\n1. Resumo executivo em 3 linhas\n2. Análise do Instagram com contexto\n3. Análise das campanhas\n4. Top conteúdos e por que funcionaram\n5. 3 aprendizados do trimestre\n6. Recomendações para o próximo trimestre\n\nUse linguagem simples — será lido pelo dono do negócio.` },
 ];
-
-// ============ CORES ============
-const CORES = ['#1a1916','#2d6a4f','#1e40af','#5b21b6','#92400e','#991b1b','#0f766e','#be185d'];
 
 // ============ CONFIG ============
 function applyConfig() {
   const cfg = DB.config;
-  document.getElementById('sidebar-agency-name').textContent = cfg.nome || 'Eugência';
-  document.title = (cfg.nome || 'Eugência') + ' OS';
-  document.documentElement.style.setProperty('--agency-color', cfg.cor || '#1a1916');
+  const nome = cfg.nome || 'Solo | Agência de Marketing';
+  document.getElementById('sidebar-agency-name').textContent = nome;
+  document.title = nome;
 }
 
 function previewAgency() {
@@ -833,18 +829,11 @@ function saveConfig() {
 function initConfig() {
   document.getElementById('cfg-nome').value = DB.config.nome || '';
   document.getElementById('cfg-voce').value = DB.config.voce || '';
-  const sw = document.getElementById('color-swatches');
-  sw.innerHTML = CORES.map(c => `<div class="color-swatch${DB.config.cor===c?' selected':''}" style="background:${c}" onclick="selectColor('${c}')"></div>`).join('');
-}
-
-function selectColor(c) {
-  DB.config.cor = c;
-  document.querySelectorAll('.color-swatch').forEach(s => s.classList.toggle('selected', s.style.background === c || s.style.backgroundColor === c));
 }
 
 // ============ NAV ============
 const PAGE_META = {
-  dashboard:        ['Dashboard','Visão geral da sua eugência'],
+  dashboard:        ['Dashboard','Visão geral da Solo | Agência de Marketing'],
   clientes:         ['Clientes','Progresso de cada cliente'],
   'cliente-detalhe':['Cliente','Detalhes e checklists'],
   calendario:       ['Calendário','Conteúdo programado'],
@@ -900,6 +889,11 @@ function addCliente() {
     servicos: document.getElementById('fn-srv').value.trim(),
     meta: document.getElementById('fn-meta').value.trim(),
     tom: document.getElementById('fn-tom').value.trim(),
+    publico: document.getElementById('fn-publico').value.trim(),
+    diferencial: document.getElementById('fn-diferencial').value.trim(),
+    cidade: document.getElementById('fn-cidade').value.trim(),
+    instagram: document.getElementById('fn-instagram').value.trim(),
+    naoquerer: document.getElementById('fn-naoquerer').value.trim(),
     nota: document.getElementById('fn-nota').value.trim(),
     fase: document.getElementById('fn-fase').value,
     criado: new Date().toLocaleDateString('pt-BR'),
@@ -907,7 +901,7 @@ function addCliente() {
   });
   save(DB);
   closeModal('modal-add-cliente');
-  ['fn-nome','fn-seg','fn-srv','fn-meta','fn-tom','fn-nota'].forEach(id => document.getElementById(id).value = '');
+  ['fn-nome','fn-seg','fn-srv','fn-meta','fn-tom','fn-publico','fn-diferencial','fn-cidade','fn-instagram','fn-naoquerer','fn-nota'].forEach(id => document.getElementById(id).value = '');
   renderDashboard(); renderClientes();
   toast('Cliente adicionado com sucesso!');
 }
@@ -982,7 +976,8 @@ function showCliente(id) {
         <div class="cd-tab active" onclick="cdTab(this,'cd-info')">Informações</div>
         <div class="cd-tab" onclick="cdTab(this,'cd-checklist')">Checklist</div>
         <div class="cd-tab" onclick="cdTab(this,'cd-posts')">Posts</div>
-        <div class="cd-tab" onclick="cdTab(this,'cd-prompts')">Prompts</div>
+        <div class="cd-tab" onclick="cdTab(this,'cd-prompts')">Prompts IA</div>
+        <div class="cd-tab" style="background:var(--purple-bg);color:var(--purple);border-radius:6px" onclick="cdTab(this,'cd-contexto')">✦ Contexto IA</div>
       </div>
 
       <div class="cd-panel active" id="cd-info">
@@ -991,6 +986,10 @@ function showCliente(id) {
           <div class="info-item"><div class="info-label">Serviços</div><div class="info-value">${c.servicos||'—'}</div></div>
           <div class="info-item"><div class="info-label">Meta principal</div><div class="info-value">${c.meta||'—'}</div></div>
           <div class="info-item"><div class="info-label">Tom de voz</div><div class="info-value">${c.tom||'—'}</div></div>
+          <div class="info-item"><div class="info-label">Público-alvo</div><div class="info-value">${c.publico||'—'}</div></div>
+          <div class="info-item"><div class="info-label">Diferencial</div><div class="info-value">${c.diferencial||'—'}</div></div>
+          <div class="info-item"><div class="info-label">Cidade</div><div class="info-value">${c.cidade||'—'}</div></div>
+          <div class="info-item"><div class="info-label">Instagram</div><div class="info-value">${c.instagram||'—'}</div></div>
         </div>
         <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:8px">Fase atual</div>
         <select class="form-select" style="max-width:220px;margin-bottom:16px" onchange="mudarFase(${id},this.value)">
@@ -1028,7 +1027,37 @@ function showCliente(id) {
           </div>
         `).join('')}
       </div>
+
+      <div class="cd-panel" id="cd-contexto">
+        <div style="background:var(--purple-bg);border:1px solid rgba(91,33,182,0.15);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:18px;font-size:13px;color:var(--purple);line-height:1.7">
+          <strong>Como usar:</strong> clique em "Copiar contexto" e cole no início de qualquer conversa no Claude. A IA já vai saber tudo sobre ${c.nome} sem você precisar explicar nada.
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;margin-bottom:14px">
+          <div style="font-family:'DM Mono',monospace;font-size:12px;line-height:1.8;color:var(--text2);white-space:pre-wrap" id="ctx-preview-${id}">${gerarContexto(c)}</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-sm btn-primary" onclick="copiarContexto(${id})">Copiar contexto</button>
+          <button class="btn btn-sm" onclick="abrirClaudeComContexto(${id})">✦ Copiar e abrir no Claude</button>
+        </div>
+        <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:12px">Atualizar dados do contexto</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div><label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);margin-bottom:4px;display:block">Público-alvo</label>
+            <input class="form-input" style="font-size:13px" value="${c.publico||''}" onblur="salvarCampoCliente(${id},'publico',this.value)" placeholder="Ex: Mulheres 25-40..."></div>
+            <div><label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);margin-bottom:4px;display:block">Diferencial</label>
+            <input class="form-input" style="font-size:13px" value="${c.diferencial||''}" onblur="salvarCampoCliente(${id},'diferencial',this.value)" placeholder="Ex: Único da cidade..."></div>
+            <div><label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);margin-bottom:4px;display:block">Cidade</label>
+            <input class="form-input" style="font-size:13px" value="${c.cidade||''}" onblur="salvarCampoCliente(${id},'cidade',this.value)" placeholder="Ex: São Paulo, SP"></div>
+            <div><label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);margin-bottom:4px;display:block">Instagram</label>
+            <input class="form-input" style="font-size:13px" value="${c.instagram||''}" onblur="salvarCampoCliente(${id},'instagram',this.value)" placeholder="@usuario"></div>
+          </div>
+          <div style="margin-top:10px"><label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);margin-bottom:4px;display:block">O que NÃO usar</label>
+          <input class="form-input" style="font-size:13px" value="${c.naoquerer||''}" onblur="salvarCampoCliente(${id},'naoquerer',this.value)" placeholder="Ex: Texto em cima de foto..."></div>
+        </div>
+      </div>
+
     </div>
+  </div>
   `;
   nav('cliente-detalhe');
 }
@@ -1369,6 +1398,65 @@ function initPostModal() {
   document.getElementById('fp-data').value = new Date().toISOString().split('T')[0];
 }
 document.querySelector('[onclick="openModal(\'modal-add-post\')"]').addEventListener('click', initPostModal);
+
+// ============ CONTEXTO IA ============
+function gerarContexto(c) {
+  if (!c) return '';
+  var nl = String.fromCharCode(10);
+  var linhas = [
+    '=== CONTEXTO DO CLIENTE: ' + c.nome.toUpperCase() + ' ===',
+    '',
+    'Voce esta me ajudando com estrategias de marketing digital para um dos meus clientes.',
+    'Guarde essas informacoes para todas as respostas desta conversa.',
+    '',
+    '[ SOBRE O NEGOCIO ]',
+    'Nome: ' + c.nome,
+    'Segmento: ' + (c.segmento || '-'),
+    'Cidade: ' + (c.cidade || '-'),
+    'Instagram: ' + (c.instagram || '-'),
+    'Servicos contratados: ' + (c.servicos || '-'),
+    '',
+    '[ ESTRATEGIA ]',
+    'Meta principal: ' + (c.meta || '-'),
+    'Publico-alvo: ' + (c.publico || '-'),
+    'Diferencial do negocio: ' + (c.diferencial || '-'),
+    'Tom de voz: ' + (c.tom || '-'),
+    'O que NAO usar: ' + (c.naoquerer || '-'),
+    '',
+    '[ OBSERVACOES ]',
+    (c.nota || 'Nenhuma observacao adicional.'),
+    '',
+    '[ FASE ATUAL ]',
+    'O cliente esta na fase de: ' + (c.fase || 'onboarding'),
+    '',
+    '=== FIM DO CONTEXTO ===',
+    '',
+    'Agora me diga: o que voce precisa sobre ' + c.nome + '?'
+  ];
+  return linhas.join(nl);
+}
+
+function copiarContexto(clienteId) {
+  const c = DB.clientes.find(x => x.id === clienteId);
+  if (!c) return;
+  navigator.clipboard.writeText(gerarContexto(c)).then(() => toast('Contexto copiado!'));
+}
+
+function abrirClaudeComContexto(clienteId) {
+  copiarContexto(clienteId);
+  window.open('https://claude.ai', '_blank');
+  toast('Contexto copiado! Cole no Claude.');
+}
+
+function salvarCampoCliente(id, campo, valor) {
+  const c = DB.clientes.find(x => x.id === id);
+  if (!c) return;
+  c[campo] = valor;
+  save(DB);
+  // Atualizar preview do contexto
+  const preview = document.getElementById('ctx-preview-' + id);
+  if (preview) preview.textContent = gerarContexto(c);
+}
 
 // ============ INIT ============
 applyConfig();
